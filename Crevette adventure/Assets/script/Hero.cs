@@ -1,16 +1,16 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-using UnityEngine;
-
-public class heros
+public class Hero
 {
     public string Name;
     public int CurrentHealth;
     public int MaxHealth;
-    public int Speed; 
+    public int Speed;
     public bool IsEnemy;
+    public List<Skill> Skills = new List<Skill>();
 
-    public heros(string name, int maxHealth, int speed, bool isEnemy)
+    public Hero(string name, int maxHealth, int speed, bool isEnemy)
     {
         Name = name;
         MaxHealth = maxHealth;
@@ -19,15 +19,17 @@ public class heros
         IsEnemy = isEnemy;
     }
 
-    public bool IsAlive()
-    {
-        return CurrentHealth > 0;
-    }
+    public bool IsAlive() => CurrentHealth > 0;
 
     public void TakeDamage(int dmg)
     {
         CurrentHealth -= dmg;
         if (CurrentHealth < 0) CurrentHealth = 0;
         Debug.Log($"{Name} subit {dmg} dégâts ! (HP restant : {CurrentHealth}/{MaxHealth})");
+    }
+
+    public void AddSkill(Skill skill)
+    {
+        Skills.Add(skill);
     }
 }

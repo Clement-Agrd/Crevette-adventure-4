@@ -1,37 +1,55 @@
-using UnityEngine;
-
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class BattleSystem : MonoBehaviour
 {
-    private List<heros> allheross = new List<heros>();
+    public BattleUI battleUI;
+    private List<Hero> allHeros = new List<Hero>();
     private int currentTurnIndex = 0;
+    private Hero current;
 
     void Start()
     {
-        // Exemple de setup de combat
-        allheross.Add(new heros("Crevette", 30, 10, false));
-        allheross.Add(new heros("Oursin", 30, 10, false));
-        allheross.Add(new heros("Crabe", 30, 10, false));
-        allheross.Add(new heros("Poulpe", 30, 10, false));
-        allheross.Add(new heros("Sèche", 30, 10, false));
-        allheross.Add(new heros("Bernard", 30, 10, false));
-        allheross.Add(new heros("Citron", 30, 10, true));
-        
+        // --- Héros ---
+        Hero Crevette = new Hero("Crevette", 35, 10, false);
+        Crevette.AddSkill(new Skill("Attaque", "Une attaque normale", 5, 8));
+        Crevette.AddSkill(new Skill("Frappe puissante", "Une attaque plus forte", 8, 12));
+        Crevette.AddSkill(new Skill("Soin léger", "Soigne un allié", 5, 10, false));
 
-        // Tri des tours par vitesse décroissante
-        allheross = allheross.OrderByDescending(c => c.Speed).ToList();
+        Hero Oursin = new Hero("Oursin", 25, 8, false);
+        Oursin.AddSkill(new Skill("Boule de feu", "Inflige des dégâts de feu", 7, 12));
+        Oursin.AddSkill(new Skill("Soin magique", "Restaure la vie d'un allié", 6, 10, false));
+        
+        Hero Crabe = new Hero("Crabe", 20, 6, false);
+        Crabe.AddSkill(new Skill("Coup de dague", "Attaque rapide", 4, 7));
+        
+        Hero Poulpe = new Hero("Poulpe", 20, 6, false);
+        Poulpe.AddSkill(new Skill("Coup de dague", "Attaque rapide", 4, 7));
+       
+        Hero Seche = new Hero("Seche", 20, 6, false);
+        Seche.AddSkill(new Skill("Coup de dague", "Attaque rapide", 4, 7));
+        
+        Hero Bernard = new Hero("Bernard", 20, 6, false);
+        Bernard.AddSkill(new Skill("Coup de dague", "Attaque rapide", 4, 7));
+
+        // --- Enemies --- 
+        Hero Banane = new Hero("Banane", 30, 7, true);
+        Banane.AddSkill(new Skill("Coup brutal", "Attaque puissante", 6, 10));
+
+        allHeros.AddRange(new[] { Crevette, Oursin, Crabe, Poulpe, Seche, Bernard, Banane });
+
+        // Tri par vitesse
+        allHeros = allHeros.OrderByDescending(c => c.Speed).ToList();
 
         StartTurn();
     }
 
     void StartTurn()
-    {
+    {   
         if (IsBattleOver()) return;
 
-        heros current = allheross[currentTurnIndex];
+        current = allHeros[currentTurnIndex];
         if (!current.IsAlive())
         {
             NextTurn();
@@ -39,68 +57,80 @@ public class BattleSystem : MonoBehaviour
         }
 
         Debug.Log($"C'est le tour de {current.Name} !");
-        
+
         if (current.IsEnemy)
         {
+            battleUI.HideAll();
             EnemyAction(current);
         }
         else
         {
-            // Dans une vraie version, on attendra une entrée du joueur ici
-            PlayerAction(current);
+            ShowPlayerSkills();
         }
     }
 
-    void PlayerAction(heros player)
+    void ShowPlayerSkills()
     {
-        // Pour le test : attaquer un ennemi au hasard
-        heros target = allheross.FirstOrDefault(c => c.IsEnemy && c.IsAlive());
+        battleUI.ShowSkills(current.Skills);
+        battleUI.OnSkillSelected += HandleSkillChoice;
+    }
+
+    void HandleSkillChoice(Skill chosenSkill)
+    {
+        battleUI.HideAll();
+        battleUI.OnSkillSelected -= HandleSkillChoice;
+
+        // Choisir une cible (simple pour l’instant)
+        Hero target = chosenSkill.TargetEnemy
+            ? allHeros.FirstOrDefault(c => c.IsEnemy && c.IsAlive())
+            : current; // auto-soin simple
+
         if (target != null)
         {
-            target.TakeDamage(Random.Range(5, 10));
+            chosenSkill.Use(current, target);
         }
+
         NextTurn();
     }
 
-    void EnemyAction(heros enemy)
+    void EnemyAction(Hero enemy)
     {
-        heros target = allheross.FirstOrDefault(c => !c.IsEnemy && c.IsAlive());
-        if (target != null)
-        {
-            target.TakeDamage(Random.Range(3, 7));
-        }
-        NextTurn();
+        Skill chosenSkill = enemy.Skills[Random.Range(0, enemy.Skills.Count)];
+        Hero target = chosenSkill.TargetEnemy
+            ? allHeros.FirstOrDefault(c => !c.IsEnemy && c.IsAlive())
+            : enemy;
+        chosenSkill.Use(enemy, target);
+        Invoke(nameof(NextTurn), 1.5f);
     }
 
     void NextTurn()
     {
         currentTurnIndex++;
-        if (currentTurnIndex >= allheross.Count)
-        {
-            currentTurnIndex = 0; // nouvelle manche
-        }
+        if (currentTurnIndex >= allHeros.Count)
+            currentTurnIndex = 0;
 
-        Invoke(nameof(StartTurn), 1f); // délai entre les tours
+        Invoke(nameof(StartTurn), 1f);
     }
 
     bool IsBattleOver()
     {
-        bool allPlayersDead = !allheross.Any(c => !c.IsEnemy && c.IsAlive());
-        bool allEnemiesDead = !allheross.Any(c => c.IsEnemy && c.IsAlive());
+        bool allPlayersDead = !allHeros.Any(c => !c.IsEnemy && c.IsAlive());
+        bool allEnemiesDead = !allHeros.Any(c => c.IsEnemy && c.IsAlive());
 
         if (allPlayersDead)
         {
-            Debug.Log("Tous les héros sont morts... Défaite !");
+            Debug.Log("Tous les héros sont morts... 💀 Défaite !");
+            battleUI.HideAll();
             return true;
         }
 
         if (allEnemiesDead)
         {
-            Debug.Log("Victoire ! Tous les ennemis sont vaincus !");
+            Debug.Log("Victoire 🎉 !");
+            battleUI.HideAll();
             return true;
         }
 
         return false;
     }
 }
-
