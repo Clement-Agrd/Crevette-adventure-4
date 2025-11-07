@@ -18,6 +18,6 @@ MonoBehaviour:
   <Def>k__BackingField: 10
   <Speed>k__BackingField: 10
   <IsEnemy>k__BackingField: 1
-  <Passive>k__BackingField: {fileID: 11400000, guid: db687bc4b045c454db093b8ab0c450a6, type: 2}
+  <Passive>k__BackingField: {fileID: 11400000, guid: 249283faddde0b04a8a6cae457929db8, type: 2}
   <Skills>k__BackingField:
   - {fileID: 11400000, guid: 726e953f4e858f44183597bb632f8ef3, type: 2}

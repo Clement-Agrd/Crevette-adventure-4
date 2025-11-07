@@ -9,6 +9,7 @@ namespace Scripts
     public class Hero
     {
         public event Action<int, Hero> OnDamaged;
+        public event Action<Hero> OnTurnStart;
         public string Name { get; private set; }
         public int CurrentHealth { get; private set; }
         public int MaxHealth { get; private set; }
@@ -17,6 +18,7 @@ namespace Scripts
         public int Speed { get; private set; }
         public bool IsEnemy{ get; private set; }
         public Passive Passive { get; private set; }
+        
     
         public List<ISkill> Skills = new();
         public Hero(HeroData data)
@@ -51,16 +53,24 @@ namespace Scripts
                 CurrentHealth -= Mathf.CeilToInt(dmg / Def);
             
             if (CurrentHealth < 0) CurrentHealth = 0;
-            Debug.Log($"{Name} subit {dmg} dégâts ! (HP restant : {CurrentHealth}/{MaxHealth})");
+            Debug.Log($"{Name} subit {dmg / Def} dégâts ! (HP restant : {CurrentHealth}/{MaxHealth})");
             OnDamaged?.Invoke(dmg, from);
         }
+        
+        public void TriggerTurnStart()
+        {
+            OnTurnStart?.Invoke(this);
+        }
 
+        
 
-        public void Heal(int heal)
+        public void Heal(int heal, Hero hero)
         {
             CurrentHealth += heal;
             if (CurrentHealth > MaxHealth)
                 CurrentHealth = MaxHealth;
+            Debug.Log($"{Name} Gagne { heal } Hp ! (HP restant : {CurrentHealth}/{MaxHealth})");
         }
+        
     }
 }

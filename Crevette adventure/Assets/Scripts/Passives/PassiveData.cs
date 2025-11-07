@@ -1,4 +1,5 @@
-﻿using Scripts.Passives;
+﻿using Passives.PassiveHealing;
+using Scripts.Passives;
 using UnityEngine;
 
 namespace Scripts

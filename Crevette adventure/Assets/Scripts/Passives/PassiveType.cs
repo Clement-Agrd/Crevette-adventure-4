@@ -3,6 +3,6 @@
     public enum PassiveType
     {
         Thorn,
-        NomALaCon
+        Healing
     }
 }

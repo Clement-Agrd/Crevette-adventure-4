@@ -2,15 +2,19 @@ using System.Collections.Generic;
 using System.Linq;
 using Scripts.Skills;
 using UnityEngine;
+using Random = UnityEngine.Random;
+using System;
 
 namespace Scripts
 {
+
     public class BattleSystem : MonoBehaviour
     {
         public BattleUI battleUI;
         private List<Hero> allHeros = new List<Hero>();
         private int currentTurnIndex = 0;
-        private Hero current;
+        public Hero current;
+      
 
         [SerializeField] private HeroData[] heroes;
         
@@ -43,8 +47,9 @@ namespace Scripts
             }
 
             Debug.Log($"C'est le tour de {current.Name} !");
-
             
+            // ✅ Déclenche l'événement
+            current.TriggerTurnStart();
             if (current.IsEnemy)
             {
                 battleUI.HideAll();
@@ -110,10 +115,10 @@ namespace Scripts
         }
 
         
-        public Hero GetFirstEnemyHero()
-        {
-            return allHeros.FirstOrDefault(c => c.IsEnemy && c.IsAlive());
-        }
+       
+        public Hero GetFirstAliveHero() => allHeros.FirstOrDefault(c => !c.IsEnemy && c.IsAlive());
+        public Hero GetFirstAliveEnemy(Hero user) => allHeros.FirstOrDefault(c => c.IsEnemy && c.IsAlive() && c != user);
+
         
         void EnemyAction(Hero enemy)
         {
@@ -122,7 +127,6 @@ namespace Scripts
             Debug.Log($"{enemy.Name} attaque avec {chosenSkill.SkillData.Title}");
             Invoke(nameof(NextTurn), 1.5f);
         }
-
 
     }
 }

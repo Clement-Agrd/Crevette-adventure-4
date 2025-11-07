@@ -12,7 +12,7 @@ namespace Skills.Estoc
 
         public override void Use(BattleSystem system)
         {
-            Hero targetHero = system.GetFirstEnemyHero();
+            Hero targetHero = user.IsEnemy ? system.GetFirstAliveHero() : system.GetFirstAliveEnemy(user);
             int totalDamage = user.GetDamageFor(Data.Damage);
             
             targetHero.TakeDamage(totalDamage, user, false);
