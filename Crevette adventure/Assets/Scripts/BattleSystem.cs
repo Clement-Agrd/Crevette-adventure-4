@@ -5,6 +5,8 @@ using UnityEngine;
 public class BattleSystem : MonoBehaviour
 {
     public BattleUI battleUI;
+    public SkillDatabase skillDB; // référence dans l’inspecteur
+
     private List<Hero> allHeros = new List<Hero>();
     private int currentTurnIndex = 0;
     private Hero current;
@@ -12,30 +14,31 @@ public class BattleSystem : MonoBehaviour
     void Start()
     {
         // --- Héros ---
-        Hero Crevette = new Hero("Crevette", 35, 10, false);
-        Crevette.AddSkill(new Skill("Attaque", "Une attaque normale", 5, 8));
-        Crevette.AddSkill(new Skill("Frappe puissante", "Une attaque plus forte", 8, 12));
-        Crevette.AddSkill(new Skill("Soin léger", "Soigne un allié", 5, 10, false));
+        
+        Hero Crevette = new Hero("Crevette", 35, 10, 10, 20, false);
+        Crevette.AddSkill(skillDB.GetSkillByName("Attaque"));
+        Crevette.AddSkill(skillDB.GetSkillByName("Frappe puissante"));
+        Crevette.AddSkill(skillDB.GetSkillByName("Soin léger"));
 
-        Hero Oursin = new Hero("Oursin", 25, 8, false);
-        Oursin.AddSkill(new Skill("Boule de feu", "Inflige des dégâts de feu", 7, 12));
-        Oursin.AddSkill(new Skill("Soin magique", "Restaure la vie d'un allié", 6, 10, false));
+        Hero Oursin = new Hero("Oursin",35, 10, 10, 20, false);
+        Oursin.AddSkill(skillDB.GetSkillByName("Boule de feu"));
+        Oursin.AddSkill(skillDB.GetSkillByName("Soin magique"));
         
-        Hero Crabe = new Hero("Crabe", 20, 6, false);
-        Crabe.AddSkill(new Skill("Coup de dague", "Attaque rapide", 4, 7));
+        Hero Crabe = new Hero("Crabe", 35, 10, 10, 20, false);
+        Crabe.AddSkill(skillDB.GetSkillByName("Soin magique"));
         
-        Hero Poulpe = new Hero("Poulpe", 20, 6, false);
-        Poulpe.AddSkill(new Skill("Coup de dague", "Attaque rapide", 4, 7));
+        Hero Poulpe = new Hero("Poulpe", 35, 10, 10, 20, false);
+        Poulpe.AddSkill(skillDB.GetSkillByName("Soin léger"));
        
-        Hero Seche = new Hero("Seche", 20, 6, false);
-        Seche.AddSkill(new Skill("Coup de dague", "Attaque rapide", 4, 7));
+        Hero Seche = new Hero("Seche", 35, 10, 10, 20, false);
+        Seche.AddSkill(skillDB.GetSkillByName("Soin léger"));
         
-        Hero Bernard = new Hero("Bernard", 20, 6, false);
-        Bernard.AddSkill(new Skill("Coup de dague", "Attaque rapide", 4, 7));
+        Hero Bernard = new Hero("Bernard", 35, 10, 10, 20, false);
+        Bernard.AddSkill(skillDB.GetSkillByName("Soin léger"));
 
         // --- Enemies --- 
-        Hero Banane = new Hero("Banane", 30, 7, true);
-        Banane.AddSkill(new Skill("Coup brutal", "Attaque puissante", 6, 10));
+        Hero Banane = new Hero("Banane", 35, 2, 10, 25, true);
+        Banane.AddSkill(skillDB.GetSkillByName("Soin léger"));
 
         allHeros.AddRange(new[] { Crevette, Oursin, Crabe, Poulpe, Seche, Bernard, Banane });
 
