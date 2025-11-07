@@ -1,7 +1,21 @@
-﻿namespace Skills.Estoc
+﻿using Scripts;
+using Scripts.Skills;
+
+namespace Skills.Estoc
 {
-    public class Estoc
+    public class EstocSkill : Skill<EstocSkillData>
     {
-        
+        public EstocSkill(EstocSkillData data, Hero user) : base(data, user)
+        {
+            
+        }
+
+        public override void Use(BattleSystem system)
+        {
+            Hero targetHero = system.GetFirstEnemyHero();
+            int totalDamage = user.GetDamageFor(Data.Damage);
+            
+            targetHero.TakeDamage(totalDamage, user, false);
+        }
     }
 }

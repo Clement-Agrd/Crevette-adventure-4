@@ -1,42 +1,66 @@
 using System;
 using System.Collections.Generic;
+using Scripts.Passives;
+using Scripts.Skills;
 using UnityEngine;
 
-public class Hero
+namespace Scripts
 {
-    public event Action<int, Hero> OnDamaged;
-    public string Name;
-    public int CurrentHealth;
-    public int MaxHealth;
-    public int Atk;
-    public int Def;
-    public int Speed;
-    public bool IsEnemy;
-    public List<Skill> Skills = new List<Skill>();
-    public Passive Passive { get; private set; }
-    public Hero(string name, int maxHealth, int atk,int def, int speed, bool isEnemy)
+    public class Hero
     {
-        Name = name;
-        MaxHealth = maxHealth;
-        CurrentHealth = maxHealth;
-        Atk = atk;
-        Def = def;
-        Speed = speed;
-        IsEnemy = isEnemy;
-    }
+        public event Action<int, Hero> OnDamaged;
+        public string Name { get; private set; }
+        public int CurrentHealth { get; private set; }
+        public int MaxHealth { get; private set; }
+        public int Atk { get; private set; }
+        public int Def { get; private set; }
+        public int Speed { get; private set; }
+        public bool IsEnemy{ get; private set; }
+        public Passive Passive { get; private set; }
+    
+        public List<ISkill> Skills = new();
+        public Hero(HeroData data)
+        {
+            Name = data.Name;
+            MaxHealth = data.MaxHealth;
+            CurrentHealth = MaxHealth;
+            Atk = data.Atk;
+            Def = data.Def;
+            Speed = data.Speed;
+            IsEnemy = data.IsEnemy;
 
-    public bool IsAlive() => CurrentHealth > 0;
+            foreach (SkillData skillData in data.Skills)
+            {
+                ISkill skill = skillData.CreateSkill(this); 
+                Skills.Add(skill);
+            }
+            
+            Passive = data.Passive.CreatePassive(this);
+        }
 
-    public void TakeDamage(int dmg, Hero from)
-    {
-        CurrentHealth -= dmg;
-        if (CurrentHealth < 0) CurrentHealth = 0;
-        Debug.Log($"{Name} subit {dmg} dégâts ! (HP restant : {CurrentHealth}/{MaxHealth})");
-        OnDamaged?.Invoke(dmg, from);
-    }
+        public bool IsAlive() => CurrentHealth > 0;
 
-    public void AddSkill(Skill skill)
-    {
-        Skills.Add(skill);
+
+        public int GetDamageFor(int dmg) => dmg * Atk;
+
+        public void TakeDamage(int dmg, Hero from, bool ignoreDef = false)
+        {
+            if (ignoreDef)
+                CurrentHealth -= dmg;
+            else
+                CurrentHealth -= Mathf.CeilToInt(dmg / Def);
+            
+            if (CurrentHealth < 0) CurrentHealth = 0;
+            Debug.Log($"{Name} subit {dmg} dégâts ! (HP restant : {CurrentHealth}/{MaxHealth})");
+            OnDamaged?.Invoke(dmg, from);
+        }
+
+
+        public void Heal(int heal)
+        {
+            CurrentHealth += heal;
+            if (CurrentHealth > MaxHealth)
+                CurrentHealth = MaxHealth;
+        }
     }
 }

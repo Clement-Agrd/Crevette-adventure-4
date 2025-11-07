@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Scripts
 {
-    [CreateAssetMenu(menuName = "CA/Hero", order = 0)]
+    [CreateAssetMenu(menuName = "CrevetteAdventure/Hero", order = 0)]
     public class HeroData : ScriptableObject
     {
         [field: SerializeField]

@@ -1,3 +1,24 @@
+namespace Scripts.Skills
+{
+    public abstract class Skill<T> : ISkill where T : SkillData
+    {
+        public SkillData SkillData => Data;
+        
+        protected Hero user;
+        
+        public T Data { get; private set; }
+
+        protected Skill(T data, Hero user)
+        {
+            this.user = user;
+            Data = data;
+        }
+
+        public abstract void Use(BattleSystem system);
+    }
+    
+}
+/*
 using System;
 using UnityEngine;
 
@@ -19,7 +40,7 @@ namespace Scripts
             TargetEnemy = targetEnemy;
         }
 
-        public void Use(Hero user, Hero target)
+        public  void Use(Hero user, Hero target)
         {
             if (!TargetEnemy)
             {
@@ -38,4 +59,5 @@ namespace Scripts
         }
     }
 }
+*/
 

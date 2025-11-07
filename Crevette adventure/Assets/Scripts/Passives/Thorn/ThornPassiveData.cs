@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Scripts
 {
-    [CreateAssetMenu(menuName = "CA/Passives/Thorn")]
+    [CreateAssetMenu(menuName = "CrevetteAdventure/Passives/Thorn")]
     public class ThornPassiveData : PassiveData
     {
         [field: SerializeField, Range(0, 1)]
