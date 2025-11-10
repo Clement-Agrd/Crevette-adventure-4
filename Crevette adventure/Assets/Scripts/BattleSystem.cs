@@ -10,6 +10,11 @@ namespace Scripts
 
     public class BattleSystem : MonoBehaviour
     {
+        
+        [SerializeField] private Transform[] allyPositions;
+        [SerializeField] private Transform[] enemyPositions;
+        [SerializeField] private GameObject heroPrefab;
+
         public BattleUI battleUI;
         private List<Hero> allHeros = new List<Hero>();
         private int currentTurnIndex = 0;
@@ -28,6 +33,40 @@ namespace Scripts
                 
                 allHeros.Add(hero);
             }
+            
+            int allyIndex = 0;
+            int enemyIndex = 0;
+
+            foreach (Hero hero in allHeros)
+            {
+                Transform spawnPoint;
+                if (hero.IsEnemy)
+                {
+                    spawnPoint = enemyPositions[enemyIndex];
+                    enemyIndex++;
+                }
+                else
+                {
+                    spawnPoint = allyPositions[allyIndex];
+                    allyIndex++;
+                }
+
+
+                GameObject heroObj = Instantiate(heroPrefab, spawnPoint.position, Quaternion.identity);
+
+            // Récupère le composant qui affiche l'image
+                var renderer = heroObj.GetComponentInChildren<SpriteRenderer>();
+                if (renderer != null)
+                {
+                    renderer.sprite = hero.Portrait;
+                }
+
+                
+                
+                // Optionnel : afficher le nom
+                heroObj.name = hero.Name;
+            }
+
 
             // Tri par vitesse
             allHeros = allHeros.OrderByDescending(c => c.Speed).ToList();

@@ -25,6 +25,11 @@ namespace Scripts
         [field: SerializeField]
         public List<SkillData> Skills { get; private set; }
         
+        
+        // ✅ Nouveau champ pour le sprite
+        [field: SerializeField] public Sprite Portrait { get; private set; }
+
+        
 
         public Hero CreateHero()
         {

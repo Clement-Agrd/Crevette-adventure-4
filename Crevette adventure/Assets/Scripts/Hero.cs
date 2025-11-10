@@ -19,6 +19,8 @@ namespace Scripts
         public bool IsEnemy{ get; private set; }
         public Passive Passive { get; private set; }
         
+        public Sprite Portrait { get; private set; }
+        
     
         public List<ISkill> Skills = new();
         public Hero(HeroData data)
@@ -30,6 +32,7 @@ namespace Scripts
             Def = data.Def;
             Speed = data.Speed;
             IsEnemy = data.IsEnemy;
+            Portrait = data.Portrait;
 
             foreach (SkillData skillData in data.Skills)
             {
