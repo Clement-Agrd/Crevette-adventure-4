@@ -106,19 +106,41 @@ namespace Scripts
             battleUI.OnSkillSelected += HandleSkillChoice; // ✅ écoute du clic
         }
 
-        void HandleSkillChoice(ISkill chosenSkill)
+        
+       
+        public void HandleSkillChoice(Skill skill)
         {
-            // Nettoyer l'UI
             battleUI.HideAll();
             battleUI.OnSkillSelected -= HandleSkillChoice;
 
-            // Exécuter la compétence
-            chosenSkill.Use(this); // ✅ appelle la logique interne du skill
-            Debug.Log($"{current.Name} utilise {chosenSkill.SkillData.Title}");
+            // Liste des cibles possibles
+            List<Hero> possibleTargets = allHeros
+                .Where(h => h.IsAlive() && (skill.SkillData.TargetEnemy ? h.IsEnemy : !h.IsEnemy))
+                .ToList();
+            if (skill.SkillData.TargetEnemy)
+                // Affiche les cibles
+            {
+                battleUI.ShowTargets(possibleTargets);
+                battleUI.OnTargetSelected += (target) =>
+                {
+                    battleUI.HideAll();
+                    battleUI.OnTargetSelected -= null;
 
-            // Passer au tour suivant
-            NextTurn();
+                    skill.Use(this, target);
+                    Debug.Log($"{current.Name} utilise {skill.SkillData.Title} sur {target.Name}");
+
+                    NextTurn();
+                };
+            }
+            else
+            {
+                skill.Use(this);
+
+                NextTurn(); 
+            }
         }
+
+
 
 
 
@@ -157,12 +179,18 @@ namespace Scripts
        
         public Hero GetFirstAliveHero() => allHeros.FirstOrDefault(c => !c.IsEnemy && c.IsAlive());
         public Hero GetFirstAliveEnemy(Hero user) => allHeros.FirstOrDefault(c => c.IsEnemy && c.IsAlive() && c != user);
+       
+        public List<Hero> GetAllAliveHeroes() =>
+            allHeros.Where(c => !c.IsEnemy && c.IsAlive()).ToList();
+
+        public List<Hero> GetAllAliveEnemies() =>
+            allHeros.Where(c => c.IsEnemy && c.IsAlive()).ToList();
 
         
         void EnemyAction(Hero enemy)
         {
-            ISkill chosenSkill = enemy.Skills[Random.Range(0, enemy.Skills.Count)];
-            chosenSkill.Use(this);
+            Skill chosenSkill = enemy.Skills[Random.Range(0, enemy.Skills.Count)];
+            chosenSkill.Use(this,enemy);
             Debug.Log($"{enemy.Name} attaque avec {chosenSkill.SkillData.Title}");
             Invoke(nameof(NextTurn), 1.5f);
         }

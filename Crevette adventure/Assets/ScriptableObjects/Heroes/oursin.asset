@@ -10,17 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 38e37c7d9064433e8177418f85ecc760, type: 3}
-  m_Name: Crevette
+  m_Name: oursin
   m_EditorClassIdentifier: Assembly-CSharp::Scripts.HeroData
-  <Name>k__BackingField: Crevette
-  <MaxHealth>k__BackingField: 30
+  <Name>k__BackingField: picouille
+  <MaxHealth>k__BackingField: 40
   <Atk>k__BackingField: 10
   <Def>k__BackingField: 10
-  <Speed>k__BackingField: 15
+  <Speed>k__BackingField: 10
   <IsEnemy>k__BackingField: 0
-  <Passive>k__BackingField: {fileID: 11400000, guid: db687bc4b045c454db093b8ab0c450a6, type: 2}
+  <Passive>k__BackingField: {fileID: 11400000, guid: 249283faddde0b04a8a6cae457929db8, type: 2}
   <Skills>k__BackingField:
-  - {fileID: 11400000, guid: d1fb63e77b9a8da44b57bfd6917dcde0, type: 2}
-  - {fileID: 11400000, guid: 94c619f318cd63048b0c1428f8d92526, type: 2}
-  - {fileID: 11400000, guid: 3e0e7d3264dac224697c23019be2ae59, type: 2}
-  <Portrait>k__BackingField: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 11400000, guid: 760bb99962f01fc4fbf4114fd1f020f1, type: 2}
+  <Portrait>k__BackingField: {fileID: 0}

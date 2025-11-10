@@ -1,20 +1,30 @@
 namespace Scripts.Skills
 {
-    public abstract class Skill<T> : ISkill where T : SkillData
+    public class Skill
     {
-        public SkillData SkillData => Data;
-        
-        protected Hero user;
-        
-        public T Data { get; private set; }
+        public SkillData SkillData;
 
-        protected Skill(T data, Hero user)
+        public virtual void Use(BattleSystem system)
         {
-            this.user = user;
-            Data = data;
+            
         }
 
-        public abstract void Use(BattleSystem system);
+        public virtual void Use(BattleSystem system, Hero target)
+        {
+            
+        }
+        
+
+
+        public Hero user;
+        
+
+        public Skill(SkillData data, Hero user)
+        {
+            this.user = user;
+            SkillData = data;
+        }
+        
     }
     
 }

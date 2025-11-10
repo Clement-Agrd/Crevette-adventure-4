@@ -9,9 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efe2e28541a549c082a8038eab8a267a, type: 3}
-  m_Name: Estoc_1
-  m_EditorClassIdentifier: Assembly-CSharp::Skills.Estoc.EstocSkillData
-  <Title>k__BackingField: Estoc
-  <Description>k__BackingField: Deal damage to first enemy
+  m_Script: {fileID: 11500000, guid: a0d5de1631a64d209c794042e74606f8, type: 3}
+  m_Name: DOubLEEE
+  m_EditorClassIdentifier: Assembly-CSharp::Scripts.SkillData
+  <Title>k__BackingField: doubleAttak
+  skillType: 0
+  <Description>k__BackingField: 
+  <TargetEnemy>k__BackingField: 0
   <Damage>k__BackingField: 10

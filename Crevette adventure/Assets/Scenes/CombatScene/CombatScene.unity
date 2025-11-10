@@ -277,8 +277,8 @@ MonoBehaviour:
   heroPrefab: {fileID: 792723474}
   battleUI: {fileID: 580165663}
   heroes:
-  - {fileID: 11400000, guid: 9ea4fa4ceafdc574a8f9edb0911b16fe, type: 2}
-  - {fileID: 11400000, guid: 9ea4fa4ceafdc574a8f9edb0911b16fe, type: 2}
+  - {fileID: 11400000, guid: 033bf13ca48720247bebca5cf2906f05, type: 2}
+  - {fileID: 11400000, guid: 033bf13ca48720247bebca5cf2906f05, type: 2}
   - {fileID: 11400000, guid: 9ea4fa4ceafdc574a8f9edb0911b16fe, type: 2}
   - {fileID: 11400000, guid: 9ea4fa4ceafdc574a8f9edb0911b16fe, type: 2}
   - {fileID: 11400000, guid: d15819199069f7940bd56867b4cb9a62, type: 2}

@@ -2,10 +2,22 @@ using System;
 using System.Collections.Generic;
 using Scripts.Passives;
 using Scripts.Skills;
+using Skills.Estoc;
+using Skills.Frappe;
+using Skills.AOEAttak;
+using Skills.DoubleStrike;
 using UnityEngine;
 
 namespace Scripts
 {
+    public enum SkillEnum
+    {
+        FirstEnemieAttak,
+        TargetAttak,
+        AOEAttak,
+        DoubleStrike,
+    }
+
     public class Hero
     {
         public event Action<int, Hero> OnDamaged;
@@ -18,11 +30,13 @@ namespace Scripts
         public int Speed { get; private set; }
         public bool IsEnemy{ get; private set; }
         public Passive Passive { get; private set; }
-        
         public Sprite Portrait { get; private set; }
-        
-    
-        public List<ISkill> Skills = new();
+
+        // ✅ Instanciation correcte de chaque type de compétence
+        private Dictionary<SkillEnum, Func<Skill>> skillFactory;
+
+        public List<Skill> Skills = new();
+
         public Hero(HeroData data)
         {
             Name = data.Name;
@@ -34,18 +48,27 @@ namespace Scripts
             IsEnemy = data.IsEnemy;
             Portrait = data.Portrait;
 
+            // ✅ Nouveau : création dynamique des skills
+            skillFactory = new Dictionary<SkillEnum, Func<Skill>>()
+            {
+                {SkillEnum.FirstEnemieAttak, () => new FirstEnemieAttak(null, null)},
+                {SkillEnum.TargetAttak, () => new TargetAttak(null, null)},
+                {SkillEnum.AOEAttak, () => new AOEAttak(null, null)},
+                {SkillEnum.DoubleStrike, () => new DoubleStrike(null, null)},
+            };
+
             foreach (SkillData skillData in data.Skills)
             {
-                ISkill skill = skillData.CreateSkill(this); 
+                Skill skill = skillFactory[skillData.skillType](); 
+                skill.SkillData = skillData;
+                skill.user = this;
                 Skills.Add(skill);
             }
-            
+
             Passive = data.Passive.CreatePassive(this);
         }
 
         public bool IsAlive() => CurrentHealth > 0;
-
-
         public int GetDamageFor(int dmg) => dmg * Atk;
 
         public void TakeDamage(int dmg, Hero from, bool ignoreDef = false)
@@ -59,21 +82,15 @@ namespace Scripts
             Debug.Log($"{Name} subit {dmg / Def} dégâts ! (HP restant : {CurrentHealth}/{MaxHealth})");
             OnDamaged?.Invoke(dmg, from);
         }
-        
-        public void TriggerTurnStart()
-        {
-            OnTurnStart?.Invoke(this);
-        }
 
-        
+        public void TriggerTurnStart() => OnTurnStart?.Invoke(this);
 
         public void Heal(int heal, Hero hero)
         {
             CurrentHealth += heal;
             if (CurrentHealth > MaxHealth)
                 CurrentHealth = MaxHealth;
-            Debug.Log($"{Name} Gagne { heal } Hp ! (HP restant : {CurrentHealth}/{MaxHealth})");
+            Debug.Log($"{Name} gagne {heal} HP ! (HP restant : {CurrentHealth}/{MaxHealth})");
         }
-        
     }
 }

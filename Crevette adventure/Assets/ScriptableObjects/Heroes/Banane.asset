@@ -20,4 +20,5 @@ MonoBehaviour:
   <IsEnemy>k__BackingField: 1
   <Passive>k__BackingField: {fileID: 11400000, guid: 249283faddde0b04a8a6cae457929db8, type: 2}
   <Skills>k__BackingField:
-  - {fileID: 11400000, guid: 726e953f4e858f44183597bb632f8ef3, type: 2}
+  - {fileID: 11400000, guid: d1fb63e77b9a8da44b57bfd6917dcde0, type: 2}
+  <Portrait>k__BackingField: {fileID: 0}
