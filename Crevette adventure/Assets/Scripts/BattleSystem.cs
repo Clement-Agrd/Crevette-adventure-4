@@ -89,6 +89,7 @@ namespace Scripts
             
             // ✅ Déclenche l'événement
             current.TriggerTurnStart();
+            current.GainUltiCharge();
             if (current.IsEnemy)
             {
                 battleUI.HideAll();
@@ -110,35 +111,59 @@ namespace Scripts
        
         public void HandleSkillChoice(Skill skill)
         {
+            // Masque les boutons existants et désinscrit l'événement
             battleUI.HideAll();
             battleUI.OnSkillSelected -= HandleSkillChoice;
 
-            // Liste des cibles possibles
-            List<Hero> possibleTargets = allHeros
-                .Where(h => h.IsAlive() && (skill.SkillData.TargetEnemy ? h.IsEnemy : !h.IsEnemy))
-                .ToList();
-            if (skill.SkillData.TargetEnemy)
-                // Affiche les cibles
+            List<Hero> possibleTargets = new List<Hero>();
+
+            // Détermine les cibles selon le type de skill
+            if (skill.SkillData.AffectEnemies)
             {
+                // Skills offensifs → sélectionne les ennemis vivants
+                possibleTargets = allHeros.Where(h => h.IsAlive() && h.IsEnemy != current.IsEnemy).ToList();
+
+                // ✅ Vérifie si un ennemi est en Taunt → devient la seule cible
+                Hero taunting = possibleTargets.FirstOrDefault(h => h.IsTaunting);
+                if (taunting != null)
+                {
+                    possibleTargets = new List<Hero> { taunting };
+                }
+            }
+            else
+            {
+                // Skills de soutien → sélectionne les alliés vivants
+                possibleTargets = allHeros.Where(h => h.IsAlive() && h.IsEnemy == current.IsEnemy).ToList();
+            }
+
+            // Si le skill nécessite de choisir une cible
+            if (skill.SkillData.TargetEnemy)
+            {
+                // Affiche les boutons de sélection
                 battleUI.ShowTargets(possibleTargets);
-                battleUI.OnTargetSelected += (target) =>
+
+                // Événement appelé quand une cible est choisie
+                void OnTargetChosen(Hero target)
                 {
                     battleUI.HideAll();
-                    battleUI.OnTargetSelected -= null;
+                    battleUI.OnTargetSelected -= OnTargetChosen;
 
                     skill.Use(this, target);
                     Debug.Log($"{current.Name} utilise {skill.SkillData.Title} sur {target.Name}");
 
                     NextTurn();
-                };
+                }
+
+                battleUI.OnTargetSelected += OnTargetChosen;
             }
             else
             {
+                // Skill non ciblable → exécution directe
                 skill.Use(this);
-
-                NextTurn(); 
+                NextTurn();
             }
         }
+
 
 
 

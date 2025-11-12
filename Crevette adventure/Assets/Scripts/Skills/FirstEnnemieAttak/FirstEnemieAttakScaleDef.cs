@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace Skills.Estoc
 {
-    public class FirstEnemieAttak : Skill
+    public class FirstEnemieAttakScaleDef : Skill
     {
-        public FirstEnemieAttak(SkillData data, Hero user) : base(data, user)
+        public FirstEnemieAttakScaleDef(SkillData data, Hero user) : base(data, user)
         {
             
         }
@@ -15,7 +15,7 @@ namespace Skills.Estoc
         {
             if (!CanUse()) return;
             Hero targetHero = user.IsEnemy ? system.GetFirstAliveHero() : system.GetFirstAliveEnemy(user);
-            int totalDamage = user.GetDamageFor(SkillData.Damage);
+            int totalDamage = user.GetDamageScaleDefFor(SkillData.Damage);
             
             targetHero.TakeDamage(totalDamage, user, false);
             Debug.Log($"{user.Name} evoie damage {SkillData.Title} sur {targetHero.Name}");

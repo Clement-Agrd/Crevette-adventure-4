@@ -7,6 +7,13 @@ using Skills.Frappe;
 using Skills.AOEAttak;
 using Skills.DoubleStrike;
 using UnityEngine;
+using Skills.HealAlly;
+using Skills.DefUp;
+using Skills.DefBuffAlly;
+using Skills.Taunt;
+using Skills.DoubleHit;
+using Skills.ConsumeStackStun;
+
 
 namespace Scripts
 {
@@ -16,19 +23,33 @@ namespace Scripts
         TargetAttak,
         AOEAttak,
         DoubleStrike,
+        HealAlly,
+        DefUpSkill,
+        DefBuffAlly,
+        TauntSkill,
+        DoubleHit,
+        ConsumeStackStun,
     }
 
     public class Hero
     {
+        public event Action<int, Hero> OnAttack;
         public event Action<int, Hero> OnDamaged;
         public event Action<Hero> OnTurnStart;
         public string Name { get; private set; }
         public int CurrentHealth { get; private set; }
         public int MaxHealth { get; private set; }
         public int Atk { get; private set; }
-        public int Def { get; private set; }
+        public int Def { get; set; }
         public int Speed { get; private set; }
+        
+        public int UltiCharges { get; private set; } = 0;
+       
+        public const int MaxUltiCharges = 3;
         public bool IsEnemy{ get; private set; }
+        
+        public bool IsTaunting { get; private set; } = false;
+        public bool IsStunned { get; private set; } = false;
         public Passive Passive { get; private set; }
         public Sprite Portrait { get; private set; }
 
@@ -55,6 +76,12 @@ namespace Scripts
                 {SkillEnum.TargetAttak, () => new TargetAttak(null, null)},
                 {SkillEnum.AOEAttak, () => new AOEAttak(null, null)},
                 {SkillEnum.DoubleStrike, () => new DoubleStrike(null, null)},
+                {SkillEnum.HealAlly, () => new HealAlly(null, null)},
+                {SkillEnum.DefUpSkill, () => new DefUpSkill(null, null)},
+                {SkillEnum.DefBuffAlly, () => new DefBuffAlly(null, null)},
+                {SkillEnum.TauntSkill, () => new TauntSkill(null, null)},
+                {SkillEnum.DoubleHit, () => new DoubleHit(null, null)},
+                {SkillEnum.ConsumeStackStun, () => new ConsumeStackStun(null, null)},
             };
 
             foreach (SkillData skillData in data.Skills)
@@ -69,18 +96,25 @@ namespace Scripts
         }
 
         public bool IsAlive() => CurrentHealth > 0;
-        public int GetDamageFor(int dmg) => dmg * Atk;
+        public int GetDamageFor(int dmg) => dmg * Atk;        
+        public int GetDamageScaleDefFor(int dmg) => dmg * Def;
 
         public void TakeDamage(int dmg, Hero from, bool ignoreDef = false)
         {
+            int finalDamage;
+
             if (ignoreDef)
-                CurrentHealth -= dmg;
+                finalDamage = dmg;
             else
-                CurrentHealth -= Mathf.CeilToInt(dmg / Def);
-            
+                finalDamage = Mathf.Max(1, Mathf.CeilToInt(dmg / (float)Def)); 
+            // ✅ Toujours infliger au moins 1 dégât
+
+            CurrentHealth -= finalDamage;
             if (CurrentHealth < 0) CurrentHealth = 0;
-            Debug.Log($"{Name} subit {dmg / Def} dégâts ! (HP restant : {CurrentHealth}/{MaxHealth})");
-            OnDamaged?.Invoke(dmg, from);
+
+            Debug.Log($"{Name} subit {finalDamage} dégâts ! (HP restant : {CurrentHealth}/{MaxHealth})");
+
+            OnDamaged?.Invoke(finalDamage, from);
         }
 
         public void TriggerTurnStart() => OnTurnStart?.Invoke(this);
@@ -92,5 +126,63 @@ namespace Scripts
                 CurrentHealth = MaxHealth;
             Debug.Log($"{Name} gagne {heal} HP ! (HP restant : {CurrentHealth}/{MaxHealth})");
         }
+        public void Taunt(int duration = 2)
+        {
+            IsTaunting = true;
+            Debug.Log($"{Name} provoque les ennemis !");
+
+            void RemoveTaunt(Hero h)
+            {
+                if (h == this)
+                {
+                    IsTaunting = false;
+                    Debug.Log($"{Name} n'est plus en provocation.");
+                    this.OnTurnStart -= RemoveTaunt;
+                }
+            }
+
+            this.OnTurnStart += RemoveTaunt; // retire le taunt au prochain tour
+        }
+        
+        public void Stun()
+        {
+            IsStunned = true;
+            Debug.Log($"{Name} est étourdi !");
+
+            void RemoveStun(Hero h)
+            {
+                if (h == this)
+                {
+                    IsStunned = false;
+                    Debug.Log($"{Name} n'est plus étourdi !");
+                    this.OnTurnStart -= RemoveStun;
+                }
+            }
+
+            this.OnTurnStart += RemoveStun;
+        }
+        // Méthode utilitaire pour attaquer et déclencher l’événement
+        public void DealDamage(int dmg, Hero target)
+        {
+            target.TakeDamage(dmg, this, false);
+            OnAttack?.Invoke(dmg, target);
+        }
+        
+
+        public void GainUltiCharge()
+        {
+            if (UltiCharges < MaxUltiCharges)
+            {
+                UltiCharges++;
+                Debug.Log($"{Name} gagne une charge d'ulti ({UltiCharges}/{MaxUltiCharges})");
+            }
+        }
+
+        public void ConsumeUltiCharges()
+        {
+            UltiCharges = 0;
+        }
+
+        
     }
 }

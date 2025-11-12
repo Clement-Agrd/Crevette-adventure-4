@@ -1,73 +1,55 @@
+using UnityEngine;
+
 namespace Scripts.Skills
 {
     public class Skill
     {
-        public SkillData SkillData;
-
-        public virtual void Use(BattleSystem system)
-        {
-            
-        }
-
-        public virtual void Use(BattleSystem system, Hero target)
-        {
-            
-        }
-        
-
-
-        public Hero user;
-        
+        public SkillData SkillData { get; set; }
+        public Hero user { get; set; }
 
         public Skill(SkillData data, Hero user)
         {
             this.user = user;
             SkillData = data;
         }
-        
-    }
-    
-}
-/*
-using System;
-using UnityEngine;
 
-namespace Scripts
-{
-    [Serializable]
-    public class Skill
-    {
-        public string Name;
-        public string Description;
-        public int Damage;
-        public bool TargetEnemy; // si false → peut viser un allié (ex : soin)
-
-        public Skill(string name, string description, int Dmg, bool targetEnemy = true)
+        /// <summary>
+        /// Vérifie si la compétence peut être utilisée (charges ulti, etc.)
+        /// Retourne true si OK, false sinon.
+        /// </summary>
+        protected bool CanUse()
         {
-            Name = name;
-            Description = description;
-            Damage = Dmg;
-            TargetEnemy = targetEnemy;
+            if (SkillData.IsUltimate && user.UltiCharges < Hero.MaxUltiCharges)
+            {
+                Debug.LogWarning($"{user.Name} n'a pas assez de charges pour utiliser {SkillData.Title} !");
+                return false;
+            }
+
+            // Si c'est une ulti, consomme les charges
+            if (SkillData.IsUltimate)
+            {
+                user.ConsumeUltiCharges();
+            }
+
+            return true;
         }
 
-        public  void Use(Hero user, Hero target)
+        /// <summary>
+        /// Utilisation sans cible (ex: AOE)
+        /// </summary>
+        public virtual void Use(BattleSystem system)
         {
-            if (!TargetEnemy)
-            {
-                // Exemple : soin
-                int heal = Damage;
-                target.Heal(heal);
-                Debug.Log($"{user.Name} soigne {target.Name} de {heal} HP !");
-            }
-            else
-            {
-                // Attaque classique
-                int dmg = user.Atk *Damage/target.Def;
-                target.TakeDamage(dmg, user);
-                Debug.Log($"{user.Name} utilise {Name} sur {target.Name} et inflige {dmg} dégâts !");
-            }
+            if (!CanUse()) return; // Stoppe si pas autorisé
+            // Logique par défaut (si besoin)
+        }
+
+        /// <summary>
+        /// Utilisation avec cible
+        /// </summary>
+        public virtual void Use(BattleSystem system, Hero target)
+        {
+            if (!CanUse()) return; // Stoppe si pas autorisé
+            // Logique par défaut (si besoin)
         }
     }
 }
-*/
-

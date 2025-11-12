@@ -10,6 +10,7 @@ namespace Scripts
         public string Name { get; private set; }
         [field: SerializeField]
         public int MaxHealth { get; private set; }
+
         [field: SerializeField]
         public int Atk { get; private set; }
         [field: SerializeField]

@@ -8,26 +8,30 @@ namespace Skills.DoubleStrike
 {
     public class DoubleStrike : Skill
     {
-        public DoubleStrike(SkillData data, Hero user) : base(data, user) {}
+        public DoubleStrike(SkillData data, Hero user) : base(data, user)
+        {
+        }
 
         public override void Use(BattleSystem system)
         {
-            Debug.Log("DoubleStrike.Use() appelée !");
-
-            // ✅ Sélectionne les deux premières cibles valides selon le camp du lanceur
+            if (!CanUse()) return;
+            // ✅ Récupère la liste de cibles selon si c’est un ennemi ou un allié
             List<Hero> targets = user.IsEnemy
-                ? system.GetAllAliveHeroes().Take(2).ToList()   // l'ennemi attaque les 2 premiers héros
-                : system.GetAllAliveEnemies().Take(2).ToList(); // le héros attaque les 2 premiers ennemis
+                ? system.GetAllAliveHeroes()  // l’ennemi frappe les alliés
+                : system.GetAllAliveEnemies(); // le héros frappe les ennemis
 
-            if (targets.Count == 0)
+            // ✅ Prend les 2 premiers
+            var firstTwoTargets = targets.Take(3).ToList();
+
+            if (firstTwoTargets.Count == 0)
             {
-                Debug.Log("Aucune cible disponible !");
+                Debug.Log($"{user.Name} n’a aucune cible pour {SkillData.Title}");
                 return;
             }
 
             int totalDamage = user.GetDamageFor(SkillData.Damage);
 
-            foreach (Hero target in targets)
+            foreach (var target in firstTwoTargets)
             {
                 target.TakeDamage(totalDamage, user, false);
                 Debug.Log($"{user.Name} frappe {target.Name} avec {SkillData.Title} pour {totalDamage} dégâts !");
@@ -36,8 +40,7 @@ namespace Skills.DoubleStrike
 
         public override void Use(BattleSystem system, Hero target)
         {
-            // Pas besoin d'une cible spécifique : on touche automatiquement les 2 premiers
-            Use(system);
+            Use(system); // même effet que sans cible directe
         }
     }
 }

@@ -16,6 +16,7 @@ namespace Skills.Frappe
 
         public override void Use(BattleSystem system, Hero target)
         {
+            if (!CanUse()) return;
             int totalDamage = user.GetDamageFor(SkillData.Damage);
             target.TakeDamage(totalDamage, user, false);
         }
