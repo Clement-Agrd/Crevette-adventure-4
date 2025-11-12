@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Scripts.Passives;
 using Scripts.Skills;
+using Scripts.Buffs;
 using Skills.Estoc;
 using Skills.Frappe;
 using Skills.AOEAttak;
@@ -13,6 +14,11 @@ using Skills.DefBuffAlly;
 using Skills.Taunt;
 using Skills.DoubleHit;
 using Skills.ConsumeStackStun;
+using Skills.Camouflage;
+using Skills.AssassinationStrike;
+using Skills.C1Poulpe;
+using Skills.C2Poulpe;
+using Skills.UltPoulpe;
 
 
 namespace Scripts
@@ -29,6 +35,11 @@ namespace Scripts
         TauntSkill,
         DoubleHit,
         ConsumeStackStun,
+        Camouflage,
+        AssassinationStrike,
+        C1Poulpe,
+        C2Poulpe,
+        UltPoulpe,
     }
 
     public class Hero
@@ -57,6 +68,12 @@ namespace Scripts
         private Dictionary<SkillEnum, Func<Skill>> skillFactory;
 
         public List<Skill> Skills = new();
+        
+        public Buffs.BuffCamouflage CamouflageBuff { get; private set; }
+
+        public bool IsCamouflaged => CamouflageBuff != null && CamouflageBuff.IsActive;
+        
+        public Buffs.Blind BlindDebuff { get; set; } = null;
 
         public Hero(HeroData data)
         {
@@ -82,6 +99,12 @@ namespace Scripts
                 {SkillEnum.TauntSkill, () => new TauntSkill(null, null)},
                 {SkillEnum.DoubleHit, () => new DoubleHit(null, null)},
                 {SkillEnum.ConsumeStackStun, () => new ConsumeStackStun(null, null)},
+                {SkillEnum.Camouflage, () => new Camouflage(null, null)},
+                {SkillEnum.AssassinationStrike, () => new AssassinationStrike(null, null)},
+                {SkillEnum.C1Poulpe, () => new C1PoulpeAttack(null, null)},
+                {SkillEnum.C2Poulpe, () => new C2PoulpeAttack(null, null)},
+                {SkillEnum.UltPoulpe, () => new UltPoulpeAttack(null, null)},
+
             };
 
             foreach (SkillData skillData in data.Skills)
@@ -96,7 +119,13 @@ namespace Scripts
         }
 
         public bool IsAlive() => CurrentHealth > 0;
-        public int GetDamageFor(int dmg) => dmg * Atk;        
+        public int GetDamageFor(int dmg)
+        {
+            int finalDmg = dmg * Atk;
+            if (CamouflageBuff != null)
+                finalDmg = CamouflageBuff.ApplyDamageBonus(finalDmg);
+            return finalDmg;
+        }   
         public int GetDamageScaleDefFor(int dmg) => dmg * Def;
 
         public void TakeDamage(int dmg, Hero from, bool ignoreDef = false)
@@ -106,8 +135,7 @@ namespace Scripts
             if (ignoreDef)
                 finalDamage = dmg;
             else
-                finalDamage = Mathf.Max(1, Mathf.CeilToInt(dmg / (float)Def)); 
-            // ✅ Toujours infliger au moins 1 dégât
+                finalDamage = Mathf.Max(Mathf.CeilToInt(dmg / (float)Def)); 
 
             CurrentHealth -= finalDamage;
             if (CurrentHealth < 0) CurrentHealth = 0;
@@ -181,6 +209,12 @@ namespace Scripts
         public void ConsumeUltiCharges()
         {
             UltiCharges = 0;
+        }
+        
+        public void ApplyCamouflage(int duration)
+        {
+            CamouflageBuff = new Buffs.BuffCamouflage(this, duration);
+            Debug.Log($"{Name} entre en camouflage pour {duration} tours !");
         }
 
         

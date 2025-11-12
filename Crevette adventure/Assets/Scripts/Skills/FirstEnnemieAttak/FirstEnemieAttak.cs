@@ -13,7 +13,7 @@ namespace Skills.Estoc
 
         public override void Use(BattleSystem system)
         {
-            if (!CanUse()) return;
+            if (!CanUse(system)) return;
             Hero targetHero = user.IsEnemy ? system.GetFirstAliveHero() : system.GetFirstAliveEnemy(user);
             int totalDamage = user.GetDamageFor(SkillData.Damage);
             

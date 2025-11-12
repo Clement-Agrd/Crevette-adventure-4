@@ -10,7 +10,7 @@ namespace Skills.DefBuffAlly
 
         public override void Use(BattleSystem system, Hero target)
         {
-            if (!CanUse()) return;
+            if (!CanUse(system)) return;
             if (target == null || !target.IsAlive())
             {
                 Debug.LogWarning("Aucune cible valide pour DefBuffAlly !");

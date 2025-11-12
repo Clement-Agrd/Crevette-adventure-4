@@ -15,7 +15,7 @@ namespace Skills.Taunt
 
         public override void Use(BattleSystem system)
         {
-            if (!CanUse()) return;
+            if (!CanUse(system)) return;
             user.Taunt();
             // Applique le buff immédiatement
             user.Def += bonusDef;

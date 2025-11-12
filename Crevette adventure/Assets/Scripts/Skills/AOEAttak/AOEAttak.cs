@@ -13,7 +13,7 @@ namespace Skills.AOEAttak
 
         public override void Use(BattleSystem system)
         {
-            if (!CanUse()) return;
+            if (!CanUse(system)) return;
             List<Hero> targets = user.IsEnemy 
                 ? system.GetAllAliveHeroes()  
                 : system.GetAllAliveEnemies();

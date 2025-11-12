@@ -14,14 +14,14 @@ namespace Skills.DoubleStrike
 
         public override void Use(BattleSystem system)
         {
-            if (!CanUse()) return;
+            if (!CanUse(system)) return;
             // ✅ Récupère la liste de cibles selon si c’est un ennemi ou un allié
             List<Hero> targets = user.IsEnemy
                 ? system.GetAllAliveHeroes()  // l’ennemi frappe les alliés
                 : system.GetAllAliveEnemies(); // le héros frappe les ennemis
 
             // ✅ Prend les 2 premiers
-            var firstTwoTargets = targets.Take(3).ToList();
+            var firstTwoTargets = targets.Take(2).ToList();
 
             if (firstTwoTargets.Count == 0)
             {

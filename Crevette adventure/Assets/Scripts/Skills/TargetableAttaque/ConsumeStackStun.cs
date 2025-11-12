@@ -11,7 +11,7 @@ namespace Skills.ConsumeStackStun
 
         public override void Use(BattleSystem system, Hero target)
         {
-            if (!CanUse()) return;
+            if (!CanUse(system)) return;
             if (target == null || !target.IsAlive())
             {
                 Debug.LogWarning("Aucune cible valide pour ConsumeStackStun !");
@@ -32,6 +32,8 @@ namespace Skills.ConsumeStackStun
             if (stacks <= 0)
             {
                 Debug.Log($"{target.Name} n'a pas de stacks sur lui !");
+                system.DontGoNextTurn();
+                system.ShowPlayerSkills(); // ✅ on redonne la main au joueur
                 return;
             }
 
@@ -40,7 +42,7 @@ namespace Skills.ConsumeStackStun
 
             // Applique le stun
             target.Stun();
-            Debug.Log($"{user.Name} consomme {stacks} stacks pour étourdir {target.Name} !");
+            Debug.Log($"{user.Name} consomme 1 stacks pour étourdir {target.Name} !");
         }
 
         public override void Use(BattleSystem system)

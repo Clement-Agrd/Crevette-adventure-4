@@ -17,3 +17,5 @@ MonoBehaviour:
   <Description>k__BackingField: 
   <TargetEnemy>k__BackingField: 0
   <Damage>k__BackingField: 10
+  <AffectEnemies>k__BackingField: 1
+  <IsUltimate>k__BackingField: 1

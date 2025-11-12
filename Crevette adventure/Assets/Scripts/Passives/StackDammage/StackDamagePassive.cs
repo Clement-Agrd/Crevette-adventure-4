@@ -18,18 +18,10 @@ namespace Scripts.Passives
             user.OnAttack += OnHeroAttacked;
         }
 
-        private void OnHeroAttacked(int dmg, Hero target)
+        public void OnHeroAttacked(int dmg, Hero target)
         {
             if (target == null) return;
-
-            // Si la cible change, reset stacks
-            if (lastTarget != target)
-            {
-                lastTarget = target;
-                currentStacks = 0;
-            }
-
-            currentStacks++;
+            
 
             // Calcule le bonus de dégâts
             int bonusDmg = Mathf.CeilToInt(dmg * data.StackMultiplier * currentStacks);
@@ -37,6 +29,15 @@ namespace Scripts.Passives
             // Applique le bonus directement à la cible
             target.TakeDamage(bonusDmg, user, false); // ignoreDef = true si tu veux que le bonus soit pur
             Debug.Log($"{user.Name} inflige {bonusDmg} bonus à {target.Name} ({currentStacks} stacks) !");
+            
+            // Si la cible change, reset stacks
+            if (lastTarget != target && target.IsAlive())
+            {
+                lastTarget = target;
+                currentStacks = 0;
+            }
+
+            currentStacks++;
         }
 
         // Méthodes pour les skills qui consomment les stacks
@@ -51,9 +52,19 @@ namespace Scripts.Passives
         {
             if (target == lastTarget)
             {
-                currentStacks = 0;
+                currentStacks--;
                 lastTarget = null;
             }
+        }
+        public void TransferStacks(Hero from, Hero to)
+        {
+            if (from != lastTarget || currentStacks <= 0) return;
+
+            int stacksToTransfer = currentStacks;
+            lastTarget = to;       // le nouvel ennemi devient la cible du passif
+            currentStacks = stacksToTransfer;
+
+            Debug.Log($"{stacksToTransfer} stacks transférées de {from.Name} à {to.Name} !");
         }
     }
 }

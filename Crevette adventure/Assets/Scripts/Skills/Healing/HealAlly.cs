@@ -11,7 +11,7 @@ namespace Skills.HealAlly
         // Ici, le soin est ciblé → donc c'est cette version de Use() qui sera appelée
         public override void Use(BattleSystem system, Hero target)
         {
-            if (!CanUse()) return;
+            if (!CanUse(system)) return;
             if (target == null || !target.IsAlive())
             {
                 Debug.LogWarning("Aucune cible valide pour le soin !");

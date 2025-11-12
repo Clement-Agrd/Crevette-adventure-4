@@ -4,6 +4,7 @@ using Scripts.Skills;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using System;
+using UnityEditor.Experimental.GraphView;
 
 namespace Scripts
 {
@@ -19,6 +20,8 @@ namespace Scripts
         private List<Hero> allHeros = new List<Hero>();
         private int currentTurnIndex = 0;
         public Hero current;
+        public bool CanNextTurn { get; private set; }= true;
+        
       
 
         [SerializeField] private HeroData[] heroes;
@@ -74,7 +77,7 @@ namespace Scripts
             StartTurn();
         }
 
-        void StartTurn()
+        public void StartTurn()
         {   
             if (IsBattleOver()) return;
 
@@ -101,7 +104,8 @@ namespace Scripts
             }
 
         }
-        void ShowPlayerSkills()
+
+        public void ShowPlayerSkills()
         {
             battleUI.ShowSkills(current.Skills);
             battleUI.OnSkillSelected += HandleSkillChoice; // ✅ écoute du clic
@@ -120,8 +124,12 @@ namespace Scripts
             // Détermine les cibles selon le type de skill
             if (skill.SkillData.AffectEnemies)
             {
-                // Skills offensifs → sélectionne les ennemis vivants
-                possibleTargets = allHeros.Where(h => h.IsAlive() && h.IsEnemy != current.IsEnemy).ToList();
+                // Skills offensifs → sélectionne les ennemis vivants non camouflés
+                possibleTargets = allHeros
+                    .Where(h => h.IsAlive() 
+                                && h.IsEnemy != current.IsEnemy 
+                                && !h.IsCamouflaged) // ⛔ ignore les héros camouflés
+                    .ToList();
 
                 // ✅ Vérifie si un ennemi est en Taunt → devient la seule cible
                 Hero taunting = possibleTargets.FirstOrDefault(h => h.IsTaunting);
@@ -151,7 +159,14 @@ namespace Scripts
                     skill.Use(this, target);
                     Debug.Log($"{current.Name} utilise {skill.SkillData.Title} sur {target.Name}");
 
-                    NextTurn();
+                    if (CanNextTurn)
+                    {
+                        NextTurn();
+                    }
+                    else
+                    {
+                        CanNextTurn = true;
+                    }
                 }
 
                 battleUI.OnTargetSelected += OnTargetChosen;
@@ -160,15 +175,17 @@ namespace Scripts
             {
                 // Skill non ciblable → exécution directe
                 skill.Use(this);
-                NextTurn();
+                if (CanNextTurn)
+                {
+                    NextTurn();
+                }
+                else
+                {
+                    CanNextTurn = true;
+                }
             }
         }
-
-
-
-
-
-
+        
         void NextTurn()
         {
             currentTurnIndex++;
@@ -218,6 +235,11 @@ namespace Scripts
             chosenSkill.Use(this,enemy);
             Debug.Log($"{enemy.Name} attaque avec {chosenSkill.SkillData.Title}");
             Invoke(nameof(NextTurn), 1.5f);
+        }
+
+        public void DontGoNextTurn()
+        {
+            CanNextTurn = false;
         }
 
     }

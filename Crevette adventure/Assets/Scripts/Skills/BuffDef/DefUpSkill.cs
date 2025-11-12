@@ -15,7 +15,7 @@ namespace Skills.DefUp
 
         public override void Use(BattleSystem system)
         {
-            if (!CanUse()) return;
+            if (!CanUse(system)) return;
             // Applique le buff immédiatement
             user.Def += bonusDef;
             Debug.Log($"{user.Name} augmente sa défense de {bonusDef} jusqu'au prochain tour !");

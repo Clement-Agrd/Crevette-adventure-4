@@ -11,7 +11,7 @@ namespace Skills.DoubleHit
 
         public override void Use(BattleSystem system)
         {
-            if (!CanUse()) return;
+            if (!CanUse(system)) return;
             // Récupère le premier ennemi vivant
             Hero target = user.IsEnemy
                 ? system.GetAllAliveHeroes().FirstOrDefault()

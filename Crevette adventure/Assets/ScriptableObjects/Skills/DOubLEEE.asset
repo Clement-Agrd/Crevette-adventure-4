@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: DOubLEEE
   m_EditorClassIdentifier: Assembly-CSharp::Scripts.SkillData
   <Title>k__BackingField: doubleAttak
-  skillType: 0
+  skillType: 3
   <Description>k__BackingField: 
   <TargetEnemy>k__BackingField: 0
   <Damage>k__BackingField: 10
+  <AffectEnemies>k__BackingField: 1
+  <IsUltimate>k__BackingField: 0

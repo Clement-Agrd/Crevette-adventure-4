@@ -17,11 +17,13 @@ namespace Scripts.Skills
         /// Vérifie si la compétence peut être utilisée (charges ulti, etc.)
         /// Retourne true si OK, false sinon.
         /// </summary>
-        protected bool CanUse()
+        protected bool CanUse(BattleSystem system)
         {
             if (SkillData.IsUltimate && user.UltiCharges < Hero.MaxUltiCharges)
             {
                 Debug.LogWarning($"{user.Name} n'a pas assez de charges pour utiliser {SkillData.Title} !");
+                system.DontGoNextTurn();
+                system.ShowPlayerSkills(); // ✅ on redonne la main au joueur
                 return false;
             }
 
@@ -39,7 +41,7 @@ namespace Scripts.Skills
         /// </summary>
         public virtual void Use(BattleSystem system)
         {
-            if (!CanUse()) return; // Stoppe si pas autorisé
+            if (!CanUse(system)) return; // Stoppe si pas autorisé
             // Logique par défaut (si besoin)
         }
 
@@ -48,7 +50,7 @@ namespace Scripts.Skills
         /// </summary>
         public virtual void Use(BattleSystem system, Hero target)
         {
-            if (!CanUse()) return; // Stoppe si pas autorisé
+            if (!CanUse(system)) return; // Stoppe si pas autorisé
             // Logique par défaut (si besoin)
         }
     }

@@ -12,12 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38e37c7d9064433e8177418f85ecc760, type: 3}
   m_Name: Crabe
   m_EditorClassIdentifier: Assembly-CSharp::Scripts.HeroData
-  <Name>k__BackingField: 
-  <MaxHealth>k__BackingField: 0
-  <Atk>k__BackingField: 0
-  <Def>k__BackingField: 0
-  <Speed>k__BackingField: 0
+  <Name>k__BackingField: Crabe
+  <MaxHealth>k__BackingField: 300
+  <Atk>k__BackingField: 10
+  <Def>k__BackingField: 10
+  <Speed>k__BackingField: 16
   <IsEnemy>k__BackingField: 0
-  <Passive>k__BackingField: {fileID: 0}
-  <Skills>k__BackingField: []
+  <Passive>k__BackingField: {fileID: 11400000, guid: aae37ae266bb5ab45bfecb4405eff560, type: 2}
+  <Skills>k__BackingField:
+  - {fileID: 11400000, guid: 9533a4e5a20b976419302b06325fcdf8, type: 2}
+  - {fileID: 11400000, guid: 597f9787105212742b3eb984793f4ed8, type: 2}
+  - {fileID: 11400000, guid: d696ce1c1448b0e438b3e43019e63ddb, type: 2}
   <Portrait>k__BackingField: {fileID: 0}
