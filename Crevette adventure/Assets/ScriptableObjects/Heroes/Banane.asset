@@ -21,4 +21,4 @@ MonoBehaviour:
   <Passive>k__BackingField: {fileID: 11400000, guid: 249283faddde0b04a8a6cae457929db8, type: 2}
   <Skills>k__BackingField:
   - {fileID: 11400000, guid: d1fb63e77b9a8da44b57bfd6917dcde0, type: 2}
-  <Portrait>k__BackingField: {fileID: 0}
+  <Portrait>k__BackingField: {fileID: 21300000, guid: af3207133b189054f9dc8eaad8f4a7ad, type: 3}

@@ -5,7 +5,7 @@ using Scripts;
 public class HeroUIManager : MonoBehaviour
 {
     [SerializeField] private GameObject healthBarPrefab;
-    [SerializeField] private Canvas uiCanvas;
+   // [SerializeField] private Canvas uiCanvas;
 
     private Dictionary<Hero, HealthBar> heroBars = new Dictionary<Hero, HealthBar>();
     private Dictionary<Hero, GameObject> heroObjects;
@@ -23,12 +23,13 @@ public class HeroUIManager : MonoBehaviour
 
     private void CreateHealthBar(GameObject hero, Hero herodata)
     {
-        GameObject barObj = Instantiate(healthBarPrefab, hero.transform.position + new Vector3(0, 5, 0),
+        GameObject barObj = Instantiate(healthBarPrefab, hero.transform.position + new Vector3(0, 150, 0),
             Quaternion.identity);
         HealthBar bar = barObj.GetComponent<HealthBar>();
+        bar.hero = herodata;
         heroBars.Add(herodata, bar);
-        barObj.transform.SetParent(uiCanvas.transform);
-        barObj.transform.position = hero.transform.position + new Vector3(0, 5, 0);
+        barObj.transform.position = hero.transform.position + new Vector3(0, 150, 0);
+        
 
         bar.SetHealth(herodata.CurrentHealth, herodata.MaxHealth);
 
@@ -36,25 +37,5 @@ public class HeroUIManager : MonoBehaviour
         herodata.OnHealed += (heal, from) => bar.SetHealth(herodata.CurrentHealth, herodata.MaxHealth);
     }
 
-
-    void LateUpdate()
-    {
-        foreach (var pair in heroBars)
-        {
-            Hero hero = pair.Key;
-            GameObject heroObj = heroObjects[hero];
-            HealthBar bar = pair.Value;
-
-            Vector3 screenPos = Camera.main.WorldToScreenPoint(heroObj.transform.position + Vector3.up * 2f);
-            Vector2 uiPos;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                uiCanvas.GetComponent<RectTransform>(),
-                screenPos,
-                uiCanvas.worldCamera,
-                out uiPos
-            );
-
-            bar.GetComponent<RectTransform>().anchoredPosition = uiPos;
-        }
-    }
+    
 }
