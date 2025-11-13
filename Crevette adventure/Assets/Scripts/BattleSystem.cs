@@ -17,11 +17,13 @@ namespace Scripts
 
         public BattleUI battleUI;
         private List<Hero> allHeros = new List<Hero>();
+        private Dictionary<Hero, GameObject> heroObjects = new Dictionary<Hero, GameObject>();
         private int currentTurnIndex = 0;
         public Hero current;
       
 
         [SerializeField] private HeroData[] heroes;
+        
         
         void Start()
         {
@@ -30,10 +32,9 @@ namespace Scripts
             {
                 HeroData heroData = heroes[i];
                 Hero hero = heroData.CreateHero();
-                
                 allHeros.Add(hero);
             }
-            
+
             int allyIndex = 0;
             int enemyIndex = 0;
 
@@ -51,28 +52,25 @@ namespace Scripts
                     allyIndex++;
                 }
 
-
                 GameObject heroObj = Instantiate(heroPrefab, spawnPoint.position, Quaternion.identity);
+                heroObjects.Add(hero, heroObj); // ✅ AJOUT ICI
 
-            // Récupère le composant qui affiche l'image
                 var renderer = heroObj.GetComponentInChildren<SpriteRenderer>();
                 if (renderer != null)
                 {
                     renderer.sprite = hero.Portrait;
                 }
 
-                
-                
-                // Optionnel : afficher le nom
                 heroObj.name = hero.Name;
             }
 
+            // ✅ AJOUT ICI
+            FindObjectOfType<HeroUIManager>().Initialize(heroObjects);
 
-            // Tri par vitesse
             allHeros = allHeros.OrderByDescending(c => c.Speed).ToList();
-
             StartTurn();
         }
+
 
         void StartTurn()
         {   

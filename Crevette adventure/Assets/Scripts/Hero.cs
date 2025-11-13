@@ -8,8 +8,11 @@ namespace Scripts
 {
     public class Hero
     {
-        public event Action<int, Hero> OnDamaged;
         public event Action<Hero> OnTurnStart;
+        public event Action<int, Hero> OnHealed;
+        public event Action<int, Hero> OnDamaged;
+        
+        
         public string Name { get; private set; }
         public int CurrentHealth { get; private set; }
         public int MaxHealth { get; private set; }
@@ -58,6 +61,7 @@ namespace Scripts
             if (CurrentHealth < 0) CurrentHealth = 0;
             Debug.Log($"{Name} subit {dmg / Def} dégâts ! (HP restant : {CurrentHealth}/{MaxHealth})");
             OnDamaged?.Invoke(dmg, from);
+            
         }
         
         public void TriggerTurnStart()
@@ -72,7 +76,10 @@ namespace Scripts
             CurrentHealth += heal;
             if (CurrentHealth > MaxHealth)
                 CurrentHealth = MaxHealth;
-            Debug.Log($"{Name} Gagne { heal } Hp ! (HP restant : {CurrentHealth}/{MaxHealth})");
+
+            Debug.Log($"{Name} Gagne {heal} Hp ! (HP restant : {CurrentHealth}/{MaxHealth})");
+    
+            OnHealed?.Invoke(heal, hero); // ✅ Informe l’UI qu’on a été soigné
         }
         
     }
