@@ -29,11 +29,12 @@ namespace Skills.C2Poulpe
                 int stacks = enemy.BlindDebuff.Stacks;
 
                 // Dégâts de base venant du SkillData + bonus par stack
-                float damage = SkillData.Damage + (stacks * SkillData.Damage * 0.5f); // +20% par stack par exemple
+                float damage = SkillData.Damage + (stacks * SkillData.Damage * 0.5f); // +50% par stack par exemple
+                int dmg = user.GetDamageFor(Mathf.RoundToInt(damage));
 
-                enemy.TakeDamage(Mathf.RoundToInt(damage), user);
+                enemy.TakeDamage(dmg, user);
 
-                Debug.Log($"{user.Name} inflige {damage} dégâts à {enemy.Name} ({stacks} stacks d'aveuglement)");
+                Debug.Log($"{user.Name} inflige dégâts à {enemy.Name} ({stacks} stacks d'aveuglement)");
 
                 // Supprime les stacks d'aveuglement après utilisation
                 enemy.BlindDebuff.ClearStacks();

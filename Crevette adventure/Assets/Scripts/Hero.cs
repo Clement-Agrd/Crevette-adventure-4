@@ -19,6 +19,11 @@ using Skills.AssassinationStrike;
 using Skills.C1Poulpe;
 using Skills.C2Poulpe;
 using Skills.UltPoulpe;
+using Skills.attakDef;
+using Skills.HealAllAlly;
+using Skills.UltCrevette;
+using Skills.DefDown;
+using Skills.StackAttack;
 
 
 namespace Scripts
@@ -27,7 +32,7 @@ namespace Scripts
     {
         FirstEnemieAttak,
         TargetAttak,
-        AOEAttak,
+        AoeAttak,
         DoubleStrike,
         HealAlly,
         DefUpSkill,
@@ -40,6 +45,11 @@ namespace Scripts
         C1Poulpe,
         C2Poulpe,
         UltPoulpe,
+        FirstEnemieAttakScaleDef,
+        HealAllAlly,
+        UltCrevette,
+        DefDown,
+        StackAttack,
     }
 
     public class Hero
@@ -49,11 +59,14 @@ namespace Scripts
         public event Action<int, Hero> OnAttack;
         public event Action<int, Hero> OnDamaged;
         
+        public event Action<int, Hero> OnHealedally;
+        
+        
         
         public string Name { get; private set; }
-        public int CurrentHealth { get; private set; }
+        public int CurrentHealth { get; set; }
         public int MaxHealth { get; private set; }
-        public int Atk { get; private set; }
+        public int Atk { get; set; }
         public int Def { get; set; }
         public int Speed { get; private set; }
         
@@ -71,6 +84,7 @@ namespace Scripts
         private Dictionary<SkillEnum, Func<Skill>> skillFactory;
 
         public List<Skill> Skills = new();
+        private List<StatBuff> activeBuffs = new();
         
         public Buffs.BuffCamouflage CamouflageBuff { get; private set; }
 
@@ -94,7 +108,7 @@ namespace Scripts
             {
                 {SkillEnum.FirstEnemieAttak, () => new FirstEnemieAttak(null, null)},
                 {SkillEnum.TargetAttak, () => new TargetAttak(null, null)},
-                {SkillEnum.AOEAttak, () => new AOEAttak(null, null)},
+                {SkillEnum.AoeAttak, () => new AOEAttak(null, null)},
                 {SkillEnum.DoubleStrike, () => new DoubleStrike(null, null)},
                 {SkillEnum.HealAlly, () => new HealAlly(null, null)},
                 {SkillEnum.DefUpSkill, () => new DefUpSkill(null, null)},
@@ -107,7 +121,11 @@ namespace Scripts
                 {SkillEnum.C1Poulpe, () => new C1PoulpeAttack(null, null)},
                 {SkillEnum.C2Poulpe, () => new C2PoulpeAttack(null, null)},
                 {SkillEnum.UltPoulpe, () => new UltPoulpeAttack(null, null)},
-
+                {SkillEnum.FirstEnemieAttakScaleDef, () => new FirstEnemieAttakScaleDef(null, null)},
+                {SkillEnum.HealAllAlly, () => new HealAllAlly(null, null)},
+                {SkillEnum.UltCrevette, () => new UltCrevette(null, null)},
+                {SkillEnum.DefDown, () => new DefDownSkill(null, null)},
+                {SkillEnum.StackAttack, () => new StackAttackSkill(null, null)},
             };
 
             foreach (SkillData skillData in data.Skills)
@@ -119,6 +137,8 @@ namespace Scripts
             }
 
             Passive = data.Passive.CreatePassive(this);
+            
+            OnTurnStart += _ => OnTurnStartHandler();
         }
 
         public bool IsAlive() => CurrentHealth > 0;
@@ -148,6 +168,16 @@ namespace Scripts
 
         public void TriggerTurnStart() => OnTurnStart?.Invoke(this);
 
+        public void Heal(int heal, Hero target, Hero from)
+        {
+            CurrentHealth += heal;
+            if (CurrentHealth > MaxHealth)
+                CurrentHealth = MaxHealth;
+            OnHealedally?.Invoke(heal, target); // ✅ Informe l’UI qu’on a été soigné
+            Debug.Log($"{Name} Gagne {heal} Hp ! (HP restant : {CurrentHealth}/{MaxHealth})");
+
+        }
+    
         public void Heal(int heal, Hero hero)
         {
             CurrentHealth += heal;
@@ -197,7 +227,6 @@ namespace Scripts
             target.TakeDamage(dmg, this, false);
             OnAttack?.Invoke(dmg, target);
         }
-        
 
         public void GainUltiCharge()
         {
@@ -218,7 +247,33 @@ namespace Scripts
             CamouflageBuff = new Buffs.BuffCamouflage(this, duration);
             Debug.Log($"{Name} entre en camouflage pour {duration} tours !");
         }
+        public void AddBuff(StatBuff buff)
+        {
+            activeBuffs.Add(buff);
+            Atk += buff.AtkBonus;
+            Def += buff.DefBonus;
+            Debug.Log($"{Name} gagne un buff (+{buff.AtkBonus} ATK, +{buff.DefBonus} DEF) pour {buff.RemainingTurns} tours !");
+        }
+        public void OnTurnStartHandler()
+        {
+            // Appelé au début de chaque tour (tu peux l'appeler dans BattleSystem.NextTurn)
+            List<StatBuff> expired = new();
 
+            foreach (var buff in activeBuffs)
+            {
+                buff.RemainingTurns--;
+                if (buff.RemainingTurns <= 0)
+                {
+                    Atk -= buff.AtkBonus;
+                    Def -= buff.DefBonus;
+                    expired.Add(buff);
+                    Debug.Log($"{Name} perd un buff temporaire !");
+                }
+            }
+
+            foreach (var b in expired)
+                activeBuffs.Remove(b);
+        }
         
     }
 }

@@ -2,7 +2,7 @@
 using Scripts.Skills;
 using UnityEngine;
 
-namespace Skills.Estoc
+namespace Skills.attakDef
 {
     public class FirstEnemieAttakScaleDef : Skill
     {

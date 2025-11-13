@@ -1,42 +1,30 @@
 ﻿using Scripts;
 using Scripts.Skills;
+using Scripts.Buffs;
 using UnityEngine;
 
 namespace Skills.DefUp
 {
     public class DefUpSkill : Skill
     {
-        private int bonusDef;
-
-        public DefUpSkill(SkillData data, Hero user) : base(data, user)
-        {
-            bonusDef = SkillData.Damage; // on réutilise Damage pour la valeur du buff
-        }
+        public DefUpSkill(SkillData data, Hero user) : base(data, user) {}
 
         public override void Use(BattleSystem system)
         {
             if (!CanUse(system)) return;
-            // Applique le buff immédiatement
-            user.Def += bonusDef;
-            Debug.Log($"{user.Name} augmente sa défense de {bonusDef} jusqu'au prochain tour !");
 
-            // Écoute le prochain tour pour retirer le buff
-            void OnNextTurn(Hero h)
-            {
-                if (h == user)
-                {
-                    user.Def -= bonusDef;
-                    Debug.Log($"{user.Name} perd le bonus de défense de {bonusDef}");
-                    user.OnTurnStart -= OnNextTurn; // désinscrit l'événement
-                }
-            }
+            int bonusDef = SkillData.Damage; // On réutilise le champ Damage pour la valeur du buff
+            int duration = 1; // ✅ Buff dure 1 tour
 
-            user.OnTurnStart += OnNextTurn;
+            var buff = new StatBuff(0, bonusDef, duration);
+            user.AddBuff(buff);
+
+            Debug.Log($"{user.Name} augmente sa DEF de {bonusDef} pour {duration} tour(s) !");
         }
 
         public override void Use(BattleSystem system, Hero target)
         {
-            // pas besoin d'une cible
+            // Skill non ciblé → utilise la version simple
             Use(system);
         }
     }

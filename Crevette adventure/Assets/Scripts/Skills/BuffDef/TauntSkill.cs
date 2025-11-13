@@ -6,15 +6,16 @@ namespace Skills.Taunt
 {
     public class TauntSkill : Skill
     {
-        private int bonusDef;
 
         public TauntSkill(SkillData data, Hero user) : base(data, user)
         {
-            bonusDef = SkillData.Damage; // on réutilise Damage pour la valeur du buff
+            
         }
 
         public override void Use(BattleSystem system)
         {
+            int bonusDef;
+            bonusDef = SkillData.Damage; // on réutilise Damage pour la valeur du buff
             if (!CanUse(system)) return;
             user.Taunt();
             // Applique le buff immédiatement

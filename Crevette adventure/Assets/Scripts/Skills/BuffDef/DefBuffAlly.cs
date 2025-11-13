@@ -1,5 +1,6 @@
 ﻿using Scripts;
 using Scripts.Skills;
+using Scripts.Buffs;
 using UnityEngine;
 
 namespace Skills.DefBuffAlly
@@ -13,34 +14,24 @@ namespace Skills.DefBuffAlly
             if (!CanUse(system)) return;
             if (target == null || !target.IsAlive())
             {
-                Debug.LogWarning("Aucune cible valide pour DefBuffAlly !");
+                Debug.LogWarning("❌ Aucune cible valide pour DefBuffAlly !");
                 return;
             }
 
-            // Bonus basé sur la défense du lanceur
+            // 🧮 Calcul du bonus basé sur la DEF du lanceur
             int bonusDef = Mathf.CeilToInt(user.Def * SkillData.Damage / 100f); 
-            // Si Damage = 50 → 50% de la Def du lanceur
+            int duration = 1; // ✅ dure 1 tour par défaut
 
-            target.Def += bonusDef;
-            Debug.Log($"{user.Name} augmente la défense de {target.Name} de {bonusDef} jusqu'au prochain tour de celui-ci !");
+            // 📈 Crée un buff DEF temporaire
+            var buff = new StatBuff(0, bonusDef, duration);
+            target.AddBuff(buff);
 
-            // Retirer le buff au prochain tour du target
-            void RemoveBuff(Hero h)
-            {
-                if (h == target)
-                {
-                    target.Def -= bonusDef;
-                    Debug.Log($"{target.Name} perd le bonus de défense de {bonusDef}");
-                    target.OnTurnStart -= RemoveBuff; // désinscrit l'événement
-                }
-            }
-
-            target.OnTurnStart += RemoveBuff;
+            Debug.Log($"🛡️ {user.Name} augmente la DEF de {target.Name} de {bonusDef} pour {duration} tour(s) !");
         }
 
         public override void Use(BattleSystem system)
         {
-            // Pas de version sans cible
+            // Ce skill est ciblable, donc cette version ne fait rien
         }
     }
 }
