@@ -26,17 +26,32 @@ namespace Scripts
         
       
 
-        [SerializeField] private HeroData[] heroes;
+        public static HeroData[] heroes;
         
         
+
         void Start()
         {
             allHeros = new List<Hero>();
+
+            // Ajout des héros sélectionnés par le joueur
             for (var i = 0; i < heroes.Length; i++)
             {
                 HeroData heroData = heroes[i];
                 Hero hero = heroData.CreateHero();
                 allHeros.Add(hero);
+            }
+
+            // ✅ Ajout des ennemis (4 par exemple)
+            HeroData[] allEnemies = Resources.LoadAll<HeroData>("Heroes")
+                .Where(h => h.IsEnemy)
+                .Take(4) // Limite à 4 ennemis
+                .ToArray();
+
+            foreach (HeroData enemyData in allEnemies)
+            {
+                Hero enemy = enemyData.CreateHero();
+                allHeros.Add(enemy);
             }
 
             int allyIndex = 0;
@@ -57,24 +72,23 @@ namespace Scripts
                 }
 
                 GameObject heroObj = Instantiate(heroPrefab, spawnPoint.position, Quaternion.identity);
-                heroObjects.Add(hero, heroObj); // ✅ AJOUT ICI
+                heroObjects.Add(hero, heroObj);
 
                 var renderer = heroObj.GetComponentInChildren<SpriteRenderer>();
                 if (renderer != null)
                 {
                     renderer.sprite = hero.Portrait;
                 }
-              
 
                 heroObj.name = hero.Name;
             }
 
-           
             heroUIManager.Initialize(heroObjects);
 
             allHeros = allHeros.OrderByDescending(c => c.Speed).ToList();
             StartTurn();
         }
+
 
         public void StartTurn()
         {   
