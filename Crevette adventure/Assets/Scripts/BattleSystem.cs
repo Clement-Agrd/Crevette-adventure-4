@@ -15,6 +15,7 @@ namespace Scripts
         [SerializeField] private Transform[] allyPositions;
         [SerializeField] private Transform[] enemyPositions;
         [SerializeField] private GameObject heroPrefab;
+        [SerializeField] private HeroUIManager heroUIManager;
 
         public BattleUI battleUI;
         private List<Hero> allHeros = new List<Hero>();
@@ -63,12 +64,13 @@ namespace Scripts
                 {
                     renderer.sprite = hero.Portrait;
                 }
+              
 
                 heroObj.name = hero.Name;
             }
 
-            // ✅ AJOUT ICI
-            FindObjectOfType<HeroUIManager>().Initialize(heroObjects);
+           
+            heroUIManager.Initialize(heroObjects);
 
             allHeros = allHeros.OrderByDescending(c => c.Speed).ToList();
             StartTurn();
@@ -238,6 +240,23 @@ namespace Scripts
         {
             CanNextTurn = false;
         }
+        
+        public Hero GetWeakestHero()
+        {
+            return allHeros
+                .Where(h => !h.IsEnemy && h.IsAlive())
+                .OrderBy(h => h.CurrentHealth)
+                .FirstOrDefault();
+        }
+
+        public Hero GetWeakestEnemyAlly(Hero currentEnemy)
+        {
+            return allHeros
+                .Where(h => h.IsEnemy && h.IsAlive() && h != currentEnemy)
+                .OrderBy(h => h.CurrentHealth)
+                .FirstOrDefault();
+        }
+
 
     }
 }

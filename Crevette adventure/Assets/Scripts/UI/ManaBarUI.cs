@@ -1,14 +1,15 @@
+
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthBar : MonoBehaviour
+public class ManaBar : MonoBehaviour
 {
     [SerializeField] private Image fillImage;
     [SerializeField] private float smoothSpeed = 5f;
 
     private float targetFill = 1f;
 
-    public void SetHealth(int current, int max)
+    public void SetMana(int current, int max)
     {
         targetFill = (float)current / max;
         UpdateColor(targetFill);
@@ -21,7 +22,10 @@ public class HealthBar : MonoBehaviour
 
     private void UpdateColor(float value)
     {
-        // Vert -> Rouge
-        fillImage.color = Color.Lerp(Color.red, Color.green, value);
+        // Bleu -> Violet (plus mana = bleu, moins mana = violet)
+        Color startColor = new Color(0.5f, 0f, 1f); // Violet
+        Color endColor = new Color(0f, 0.5f, 1f);   // Bleu
+        fillImage.color = Color.Lerp(startColor, endColor, value);
     }
 }
+
