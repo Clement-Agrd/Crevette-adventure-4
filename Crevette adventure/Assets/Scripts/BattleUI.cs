@@ -13,13 +13,14 @@ namespace Scripts
         public Transform buttonContainer; // un GameObject vide pour les placer
         private List<Button> currentButtons = new List<Button>();
 
-        public event Action<ISkill> OnSkillSelected;
+        public event Action<Skill> OnSkillSelected;
+        public event Action<Hero> OnTargetSelected;
 
-        public void ShowSkills(List<ISkill> skills)
+        public void ShowSkills(List<Skill> skills)
         {
             ClearButtons();
 
-            foreach (ISkill skill in skills)
+            foreach (Skill skill in skills)
             {
                 GameObject btnObj = Instantiate(buttonPrefab, buttonContainer);
                 Button btn = btnObj.GetComponent<Button>();
@@ -44,6 +45,26 @@ namespace Scripts
             }
             currentButtons.Clear();
         }
+        
+        
+
+        public void ShowTargets(List<Hero> targets)
+        {
+            ClearButtons();
+
+            foreach (Hero target in targets)
+            {
+                GameObject btnObj = Instantiate(buttonPrefab, buttonContainer);
+                Button btn = btnObj.GetComponent<Button>();
+                TMP_Text btnText = btn.GetComponentInChildren<TMP_Text>();
+                btnText.text = target.Name;
+
+                btn.onClick.AddListener(() => OnTargetSelected?.Invoke(target));
+                currentButtons.Add(btn);
+            }
+        }
+
+
     }
 }
 

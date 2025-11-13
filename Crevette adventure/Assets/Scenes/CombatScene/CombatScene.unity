@@ -409,14 +409,14 @@ MonoBehaviour:
   heroPrefab: {fileID: 792723474}
   battleUI: {fileID: 580165663}
   heroes:
-  - {fileID: 11400000, guid: 9ea4fa4ceafdc574a8f9edb0911b16fe, type: 2}
-  - {fileID: 11400000, guid: 9ea4fa4ceafdc574a8f9edb0911b16fe, type: 2}
-  - {fileID: 11400000, guid: 9ea4fa4ceafdc574a8f9edb0911b16fe, type: 2}
-  - {fileID: 11400000, guid: 9ea4fa4ceafdc574a8f9edb0911b16fe, type: 2}
+  - {fileID: 11400000, guid: 033bf13ca48720247bebca5cf2906f05, type: 2}
+  - {fileID: 11400000, guid: 5a2661bad99fcd94ea23bcc776957982, type: 2}
+  - {fileID: 11400000, guid: c840e39acf9577f4faf13edfabfe3482, type: 2}
+  - {fileID: 11400000, guid: e6c2673aa587cd3419b6f67d0b96daa2, type: 2}
+  - {fileID: 11400000, guid: 963a508451237d849bb8149326b7157d, type: 2}
   - {fileID: 11400000, guid: d15819199069f7940bd56867b4cb9a62, type: 2}
-  - {fileID: 11400000, guid: d15819199069f7940bd56867b4cb9a62, type: 2}
-  - {fileID: 11400000, guid: d15819199069f7940bd56867b4cb9a62, type: 2}
-  - {fileID: 11400000, guid: d15819199069f7940bd56867b4cb9a62, type: 2}
+  - {fileID: 11400000, guid: 1a8260c764acc7b47a973eb5e3bb530a, type: 2}
+  - {fileID: 11400000, guid: 9ce9c8625a827324aa4bb17d48f5c6ee, type: 2}
 --- !u!1 &419570736
 GameObject:
   m_ObjectHideFlags: 0

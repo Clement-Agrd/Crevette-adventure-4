@@ -4,6 +4,7 @@ using Scripts.Skills;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using System;
+using UnityEditor.Experimental.GraphView;
 
 namespace Scripts
 {
@@ -20,6 +21,8 @@ namespace Scripts
         private Dictionary<Hero, GameObject> heroObjects = new Dictionary<Hero, GameObject>();
         private int currentTurnIndex = 0;
         public Hero current;
+        public bool CanNextTurn { get; private set; }= true;
+        
       
 
         [SerializeField] private HeroData[] heroes;
@@ -71,8 +74,7 @@ namespace Scripts
             StartTurn();
         }
 
-
-        void StartTurn()
+        public void StartTurn()
         {   
             if (IsBattleOver()) return;
 
@@ -87,6 +89,7 @@ namespace Scripts
             
             // ✅ Déclenche l'événement
             current.TriggerTurnStart();
+            current.GainUltiCharge();
             if (current.IsEnemy)
             {
                 battleUI.HideAll();
@@ -98,28 +101,88 @@ namespace Scripts
             }
 
         }
-        void ShowPlayerSkills()
+
+        public void ShowPlayerSkills()
         {
             battleUI.ShowSkills(current.Skills);
             battleUI.OnSkillSelected += HandleSkillChoice; // ✅ écoute du clic
         }
 
-        void HandleSkillChoice(ISkill chosenSkill)
+        
+       
+        public void HandleSkillChoice(Skill skill)
         {
-            // Nettoyer l'UI
+            // Masque les boutons existants et désinscrit l'événement
             battleUI.HideAll();
             battleUI.OnSkillSelected -= HandleSkillChoice;
 
-            // Exécuter la compétence
-            chosenSkill.Use(this); // ✅ appelle la logique interne du skill
-            Debug.Log($"{current.Name} utilise {chosenSkill.SkillData.Title}");
+            List<Hero> possibleTargets = new List<Hero>();
 
-            // Passer au tour suivant
-            NextTurn();
+            // Détermine les cibles selon le type de skill
+            if (skill.SkillData.AffectEnemies)
+            {
+                // Skills offensifs → sélectionne les ennemis vivants non camouflés
+                possibleTargets = allHeros
+                    .Where(h => h.IsAlive() 
+                                && h.IsEnemy != current.IsEnemy 
+                                && !h.IsCamouflaged) // ⛔ ignore les héros camouflés
+                    .ToList();
+
+                // ✅ Vérifie si un ennemi est en Taunt → devient la seule cible
+                Hero taunting = possibleTargets.FirstOrDefault(h => h.IsTaunting);
+                if (taunting != null)
+                {
+                    possibleTargets = new List<Hero> { taunting };
+                }
+            }
+            else
+            {
+                // Skills de soutien → sélectionne les alliés vivants
+                possibleTargets = allHeros.Where(h => h.IsAlive() && h.IsEnemy == current.IsEnemy).ToList();
+            }
+
+            // Si le skill nécessite de choisir une cible
+            if (skill.SkillData.TargetEnemy)
+            {
+                // Affiche les boutons de sélection
+                battleUI.ShowTargets(possibleTargets);
+
+                // Événement appelé quand une cible est choisie
+                void OnTargetChosen(Hero target)
+                {
+                    battleUI.HideAll();
+                    battleUI.OnTargetSelected -= OnTargetChosen;
+
+                    skill.Use(this, target);
+                    Debug.Log($"{current.Name} utilise {skill.SkillData.Title} sur {target.Name}");
+
+                    if (CanNextTurn)
+                    {
+                        NextTurn();
+                    }
+                    else
+                    {
+                        CanNextTurn = true;
+                    }
+                }
+
+                battleUI.OnTargetSelected += OnTargetChosen;
+            }
+            else
+            {
+                // Skill non ciblable → exécution directe
+                skill.Use(this);
+                if (CanNextTurn)
+                {
+                    NextTurn();
+                }
+                else
+                {
+                    CanNextTurn = true;
+                }
+            }
         }
-
-
-
+        
         void NextTurn()
         {
             currentTurnIndex++;
@@ -155,14 +218,25 @@ namespace Scripts
        
         public Hero GetFirstAliveHero() => allHeros.FirstOrDefault(c => !c.IsEnemy && c.IsAlive());
         public Hero GetFirstAliveEnemy(Hero user) => allHeros.FirstOrDefault(c => c.IsEnemy && c.IsAlive() && c != user);
+       
+        public List<Hero> GetAllAliveHeroes() =>
+            allHeros.Where(c => !c.IsEnemy && c.IsAlive()).ToList();
+
+        public List<Hero> GetAllAliveEnemies() =>
+            allHeros.Where(c => c.IsEnemy && c.IsAlive()).ToList();
 
         
         void EnemyAction(Hero enemy)
         {
-            ISkill chosenSkill = enemy.Skills[Random.Range(0, enemy.Skills.Count)];
-            chosenSkill.Use(this);
+            Skill chosenSkill = enemy.Skills[Random.Range(0, enemy.Skills.Count)];
+            chosenSkill.Use(this,enemy);
             Debug.Log($"{enemy.Name} attaque avec {chosenSkill.SkillData.Title}");
             Invoke(nameof(NextTurn), 1.5f);
+        }
+
+        public void DontGoNextTurn()
+        {
+            CanNextTurn = false;
         }
 
     }

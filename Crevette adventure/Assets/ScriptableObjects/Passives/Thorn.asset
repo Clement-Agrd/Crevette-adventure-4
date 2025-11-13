@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Thorn
   m_EditorClassIdentifier: Assembly-CSharp::Scripts.ThornPassiveData
   <Title>k__BackingField: Thorn
-  <ReturnDamage>k__BackingField: 0.5
+  <ReturnDamage>k__BackingField: 1

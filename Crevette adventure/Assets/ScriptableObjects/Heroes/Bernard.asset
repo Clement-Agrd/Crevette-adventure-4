@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38e37c7d9064433e8177418f85ecc760, type: 3}
+  m_Name: Bernard
+  m_EditorClassIdentifier: Assembly-CSharp::Scripts.HeroData
+  <Name>k__BackingField: Bernard
+  <MaxHealth>k__BackingField: 300
+  <Atk>k__BackingField: 10
+  <Def>k__BackingField: 10
+  <Speed>k__BackingField: 10
+  <IsEnemy>k__BackingField: 0
+  <Passive>k__BackingField: {fileID: 11400000, guid: 249283faddde0b04a8a6cae457929db8, type: 2}
+  <Skills>k__BackingField:
+  - {fileID: 11400000, guid: 25eb371b9a97ac1429e1ceccdcc145e5, type: 2}
+  <Portrait>k__BackingField: {fileID: 0}
