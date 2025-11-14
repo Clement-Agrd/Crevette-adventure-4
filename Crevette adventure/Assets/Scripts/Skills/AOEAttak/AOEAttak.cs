@@ -26,6 +26,7 @@ namespace Skills.AOEAttak
                 Debug.Log($"{user.Name} attaque {target.Name} avec {SkillData.Title}");
             }
         }
+        
 
         public override void Use(BattleSystem system, Hero target)
         {

@@ -26,5 +26,7 @@ namespace Scripts
         // ✅ Nouveau : indique si la compétence est une compétence ultime
         [field: SerializeField]
         public bool IsUltimate { get; private set; }
+        
+        [field: SerializeField] public Sprite Portrait { get; private set; }
     }
 }

@@ -20,7 +20,7 @@ MonoBehaviour:
   <IsEnemy>k__BackingField: 1
   <Passive>k__BackingField: {fileID: 11400000, guid: 27760b063aebc5a45b8b9788303c8785, type: 2}
   <Skills>k__BackingField:
-  - {fileID: 11400000, guid: e51ebfc348cd4314fabbdbd618602a7a, type: 2}
-  - {fileID: 11400000, guid: 63107d8360477c945953d71d52b4c126, type: 2}
+  <Portrait>k__BackingField: {fileID: 21300000, guid: 26c4748b2bfda7840a12cd0dbd168592, type: 3}
   - {fileID: 11400000, guid: 0110f80b2a8a51142a6757c50ca06257, type: 2}
-  <Portrait>k__BackingField: {fileID: 21300000, guid: e118ea98d16ddfe4c9af7bfd6bb19539, type: 3}
+  - {fileID: 11400000, guid: 63107d8360477c945953d71d52b4c126, type: 2}
+  - {fileID: 11400000, guid: e51ebfc348cd4314fabbdbd618602a7a, type: 2}
