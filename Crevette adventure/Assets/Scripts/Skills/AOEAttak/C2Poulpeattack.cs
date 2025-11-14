@@ -38,6 +38,7 @@ namespace Skills.C2Poulpe
 
                 // Supprime les stacks d'aveuglement après utilisation
                 enemy.BlindDebuff.ClearStacks();
+                
             }
         }
     }
