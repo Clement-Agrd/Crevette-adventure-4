@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Scripts.Skills;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Scripts
@@ -67,10 +68,38 @@ namespace Scripts
                 TMP_Text btnText = btn.GetComponentInChildren<TMP_Text>();
                 btnText.text = target.Name;
 
-                btn.onClick.AddListener(() => OnTargetSelected?.Invoke(target));
+                btn.onClick.AddListener(() =>
+                {
+                    OnTargetSelected?.Invoke(target);
+                    HeroTooltip.Instance.Hide(); // ⚡ cacher le tooltip quand on clique
+                });
                 currentButtons.Add(btn);
+
+                // ⚡ Ajouter le tooltip du héros
+                EventTrigger trigger = btnObj.GetComponent<EventTrigger>();
+                if (trigger == null)
+                    trigger = btnObj.AddComponent<EventTrigger>();
+
+                // Sur survol : afficher tooltip
+                EventTrigger.Entry entryEnter = new EventTrigger.Entry();
+                entryEnter.eventID = EventTriggerType.PointerEnter;
+                entryEnter.callback.AddListener((eventData) =>
+                {
+                    HeroTooltip.Instance.Show(target.Description); // Utiliser la description du héros
+                });
+                trigger.triggers.Add(entryEnter);
+
+                // Sur sortie : cacher tooltip
+                EventTrigger.Entry entryExit = new EventTrigger.Entry();
+                entryExit.eventID = EventTriggerType.PointerExit;
+                entryExit.callback.AddListener((eventData) =>
+                {
+                    HeroTooltip.Instance.Hide();
+                });
+                trigger.triggers.Add(entryExit);
             }
         }
+
 
 
     }

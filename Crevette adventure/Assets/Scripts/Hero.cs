@@ -103,6 +103,7 @@ namespace Scripts
         public bool IsCamouflaged => CamouflageBuff != null && CamouflageBuff.IsActive;
         
         public Buffs.Blind BlindDebuff { get; set; } = null;
+        public string Description { get; private set; }
 
         public Hero(HeroData data)
         {
@@ -116,6 +117,7 @@ namespace Scripts
             Speed = data.Speed;
             IsEnemy = data.IsEnemy;
             Portrait = data.Portrait;
+            Description = data.Description;
 
             // ✅ Nouveau : création dynamique des skills
             skillFactory = new Dictionary<SkillEnum, Func<Skill>>()

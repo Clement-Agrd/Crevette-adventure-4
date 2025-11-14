@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38e37c7d9064433e8177418f85ecc760, type: 3}
   m_Name: Crabe
   m_EditorClassIdentifier: Assembly-CSharp::Scripts.HeroData
-  <Name>k__BackingField: Crabe
+  <Name>k__BackingField: Crabtos
   <MaxHealth>k__BackingField: 300
   <Atk>k__BackingField: 10
   <Def>k__BackingField: 10
@@ -23,4 +23,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9533a4e5a20b976419302b06325fcdf8, type: 2}
   - {fileID: 11400000, guid: 597f9787105212742b3eb984793f4ed8, type: 2}
   - {fileID: 11400000, guid: d696ce1c1448b0e438b3e43019e63ddb, type: 2}
+  <Description>k__BackingField: "R\xF4le : Combatant                                                 
+    Passif : Acharnement : Quand Crabtos frappe un ennemi, il le marque. Plus il
+    y a de marques sur l\u2019ennemi, plus il lui inflige de d\xE9g\xE2ts."
   <Portrait>k__BackingField: {fileID: 21300000, guid: 80b79f182b4f8c4428a0f83eb60936c5, type: 3}

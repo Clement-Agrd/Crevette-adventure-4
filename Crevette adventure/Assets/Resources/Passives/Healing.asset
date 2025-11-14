@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Healing
   m_EditorClassIdentifier: Assembly-CSharp::Passives.PassiveHealing.PassiveHealingData
   <Title>k__BackingField: 
-  <Heal>k__BackingField: 50
+  <Heal>k__BackingField: 10

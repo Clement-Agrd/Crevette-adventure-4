@@ -22,4 +22,7 @@ MonoBehaviour:
   <Skills>k__BackingField:
   - {fileID: 11400000, guid: 1c7037a18364a954fa5516af06fa5071, type: 2}
   - {fileID: 11400000, guid: 39c335f0b1aaa1745a3d571bd0c4e716, type: 2}
+  <Description>k__BackingField: "Banane R\xF4le : Combattant  Passif : \xC0 chaque
+    fin de tour, gagne de l\u2019attaque ou de l\u2019armure.  Comp\xE9tence 1 :
+    Frappe les deux premiers ennemis.  Comp\xE9tence ultime : Frappe tous les ennemis."
   <Portrait>k__BackingField: {fileID: 21300000, guid: 1a69789638ea0ec4f9e490ed36cb513c, type: 3}

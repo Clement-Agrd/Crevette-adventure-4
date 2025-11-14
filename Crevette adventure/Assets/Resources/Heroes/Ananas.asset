@@ -20,7 +20,12 @@ MonoBehaviour:
   <IsEnemy>k__BackingField: 1
   <Passive>k__BackingField: {fileID: 11400000, guid: 27760b063aebc5a45b8b9788303c8785, type: 2}
   <Skills>k__BackingField:
-  <Portrait>k__BackingField: {fileID: 21300000, guid: 26c4748b2bfda7840a12cd0dbd168592, type: 3}
-  - {fileID: 11400000, guid: 0110f80b2a8a51142a6757c50ca06257, type: 2}
-  - {fileID: 11400000, guid: 63107d8360477c945953d71d52b4c126, type: 2}
   - {fileID: 11400000, guid: e51ebfc348cd4314fabbdbd618602a7a, type: 2}
+  - {fileID: 11400000, guid: 63107d8360477c945953d71d52b4c126, type: 2}
+  - {fileID: 11400000, guid: 0110f80b2a8a51142a6757c50ca06257, type: 2}
+  <Description>k__BackingField: "Ananas R\xF4le : Tank  Passif : Provoque les ennemis
+    et gagne des r\xE9sistances pendant le premier tour.  Comp\xE9tence 1 : Ananas
+    se soigne et gagne de l\u2019armure.  Comp\xE9tence 2 : Frappe le premier ennemi. 
+    Comp\xE9tence ultime : R\xE9duit l\u2019attaque de tous les ennemis pendant un
+    tour."
+  <Portrait>k__BackingField: {fileID: 21300000, guid: 26c4748b2bfda7840a12cd0dbd168592, type: 3}

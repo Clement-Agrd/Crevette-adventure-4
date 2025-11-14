@@ -21,4 +21,7 @@ MonoBehaviour:
   <Passive>k__BackingField: {fileID: 11400000, guid: d4d29bc3078759b4b995099e9f3c9b7d, type: 2}
   <Skills>k__BackingField:
   - {fileID: 11400000, guid: 3f2f5f7e695327b4882d80bee600633c, type: 2}
-  <Portrait>k__BackingField: {fileID: 21300000, guid: 1a69789638ea0ec4f9e490ed36cb513c, type: 3}
+  <Description>k__BackingField: "Myrtille R\xF4le : DPS Passif : Au d\xE9but de son
+    tour, gagne une Myrtille.  Comp\xE9tence 1 : Pour chaque Myrtille gagn\xE9e,
+    frappe un ennemi al\xE9atoirement."
+  <Portrait>k__BackingField: {fileID: 21300000, guid: 407acef15c53b704182c68407103e0cd, type: 3}

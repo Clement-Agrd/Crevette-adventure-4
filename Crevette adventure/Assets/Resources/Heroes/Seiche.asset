@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38e37c7d9064433e8177418f85ecc760, type: 3}
   m_Name: Seiche
   m_EditorClassIdentifier: Assembly-CSharp::Scripts.HeroData
-  <Name>k__BackingField: Seiche
+  <Name>k__BackingField: Seicharp
   <MaxHealth>k__BackingField: 300
   <Atk>k__BackingField: 10
   <Def>k__BackingField: 10
@@ -23,4 +23,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ad6487f110062604a8739ef630acb0f3, type: 2}
   - {fileID: 11400000, guid: 098a91ff3552ceb4699e4bee3cb3d0de, type: 2}
   - {fileID: 11400000, guid: db494c48d6524024899962311b86909c, type: 2}
+  <Description>k__BackingField: "R\xF4le : DPS                                                                 
+    Passif : Camouflage : Au d\xE9but du combat, Seicharp devient camoufl\xE9e pour
+    deux tours. Quand elle est camoufl\xE9e, elle ne peut pas \xEAtre cibl\xE9e par
+    les ennemis et ses d\xE9g\xE2ts sont augment\xE9s."
   <Portrait>k__BackingField: {fileID: 21300000, guid: 52ec9857e9e181b4399d935e2937cd60, type: 3}

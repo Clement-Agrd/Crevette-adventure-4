@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38e37c7d9064433e8177418f85ecc760, type: 3}
   m_Name: Poulpe
   m_EditorClassIdentifier: Assembly-CSharp::Scripts.HeroData
-  <Name>k__BackingField: Poulpe
+  <Name>k__BackingField: Sir Poulpencre
   <MaxHealth>k__BackingField: 300
   <Atk>k__BackingField: 10
   <Def>k__BackingField: 10
@@ -23,4 +23,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0839779ca2620634c96a67bd2dbbe4ec, type: 2}
   - {fileID: 11400000, guid: ca41db949025f1345ab498c52786a5a1, type: 2}
   - {fileID: 11400000, guid: 18cdab47522e4084296e5a9e3fa978a8, type: 2}
+  <Description>k__BackingField: "R\xF4le : DPS                                                                      
+    Passif : Aveuglement : Quand Sir Poulpencre frappe un ennemi, il lui ajoute une
+    marque d\u2019aveuglement qui r\xE9duit les d\xE9g\xE2ts que la cible inflige."
   <Portrait>k__BackingField: {fileID: 21300000, guid: fdd11ca9ff5bda74a8a4a161038fe1a6, type: 3}

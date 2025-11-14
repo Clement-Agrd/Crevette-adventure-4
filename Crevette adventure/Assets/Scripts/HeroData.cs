@@ -25,6 +25,9 @@ namespace Scripts
         
         [field: SerializeField]
         public List<SkillData> Skills { get; private set; }
+
+        [field: SerializeField]
+        public string Description { get; private set; }
         
         
         // ✅ Nouveau champ pour le sprite

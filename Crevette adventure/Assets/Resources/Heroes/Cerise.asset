@@ -23,4 +23,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b67d102378f59f44d8afae30b3329583, type: 2}
   - {fileID: 11400000, guid: d20ffdfa6134f5c45913f5aa54de7f9a, type: 2}
   - {fileID: 11400000, guid: 5a944dca3352e9f4c9bc97f4156226be, type: 2}
-  <Portrait>k__BackingField: {fileID: 21300000, guid: e118ea98d16ddfe4c9af7bfd6bb19539, type: 3}
+  <Description>k__BackingField: "Cerise  R\xF4le : Support  Passif : La premi\xE8re
+    fois que la Cerise doit mourir, elle ressuscite avec la moiti\xE9 de ses points
+    de vie.  Comp\xE9tence 1 : Soigne un alli\xE9.  Comp\xE9tence 2 : Augmente l\u2019attaque
+    d\u2019un alli\xE9 pendant un tour.  Comp\xE9tence ultime : Soigne deux alli\xE9s."
+  <Portrait>k__BackingField: {fileID: 21300000, guid: aef4c12d7316d9148a490381e9301a2a, type: 3}
