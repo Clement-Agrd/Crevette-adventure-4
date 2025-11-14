@@ -10,6 +10,7 @@ namespace Skills.C1Poulpe
 
         public override void Use(BattleSystem system, Hero target)
         {
+            if (!CanUse(system)) return;
             if (target == null) return;
 
             int dmg = user.GetDamageFor(SkillData.Damage);

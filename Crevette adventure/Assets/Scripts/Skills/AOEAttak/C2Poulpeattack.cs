@@ -11,6 +11,7 @@ namespace Skills.C2Poulpe
 
         public override void Use(BattleSystem system)
         {
+            if (!CanUse(system)) return;
             // Trouver tous les ennemis aveuglés
             var blindTargets = system.GetAllAliveEnemies()
                 .Where(h => h.IsAlive() && h.IsEnemy != user.IsEnemy && h.BlindDebuff != null && h.BlindDebuff.Stacks > 0)

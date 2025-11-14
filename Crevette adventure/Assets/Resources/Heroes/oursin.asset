@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: oursin
   m_EditorClassIdentifier: Assembly-CSharp::Scripts.HeroData
   <Name>k__BackingField: Oursepine
-  <MaxHealth>k__BackingField: 40
-  <Atk>k__BackingField: 10
-  <Def>k__BackingField: 10
+  <MaxHealth>k__BackingField: 100
+  <Atk>k__BackingField: 5
+  <Def>k__BackingField: 15
   <Speed>k__BackingField: 10
   <IsEnemy>k__BackingField: 0
   <Passive>k__BackingField: {fileID: 11400000, guid: db687bc4b045c454db093b8ab0c450a6, type: 2}

@@ -19,4 +19,5 @@ MonoBehaviour:
   <TargetEnemy>k__BackingField: 0
   <Damage>k__BackingField: 10
   <AffectEnemies>k__BackingField: 0
-  <IsUltimate>k__BackingField: 0
+  <IsUltimate>k__BackingField: 1
+  <Portrait>k__BackingField: {fileID: 0}

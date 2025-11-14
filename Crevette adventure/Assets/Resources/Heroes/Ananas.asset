@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Ananas
   m_EditorClassIdentifier: Assembly-CSharp::Scripts.HeroData
   <Name>k__BackingField: Ananas
-  <MaxHealth>k__BackingField: 300
-  <Atk>k__BackingField: 10
-  <Def>k__BackingField: 10
+  <MaxHealth>k__BackingField: 100
+  <Atk>k__BackingField: 7
+  <Def>k__BackingField: 12
   <Speed>k__BackingField: 4
   <IsEnemy>k__BackingField: 1
   <Passive>k__BackingField: {fileID: 11400000, guid: 27760b063aebc5a45b8b9788303c8785, type: 2}

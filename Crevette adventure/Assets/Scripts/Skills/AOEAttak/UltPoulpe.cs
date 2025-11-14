@@ -11,6 +11,7 @@ namespace Skills.UltPoulpe
 
         public override void Use(BattleSystem system)
         {
+            if (!CanUse(system)) return;
             var targets = system.GetAllAliveEnemies();
             int dmg = user.GetDamageFor(SkillData.Damage);
 
@@ -23,6 +24,7 @@ namespace Skills.UltPoulpe
             Debug.Log($"{user.Name} rejoue son tour !");
             system.DontGoNextTurn();
             system.ShowPlayerSkills(); // ✅ on redonne la main au joueur
+            user.ConsumeUltiCharges();
         }
     }
 }

@@ -17,6 +17,7 @@ MonoBehaviour:
   <Description>k__BackingField: "Sir Poulpencre inflige des d\xE9g\xE2ts \xE0 tous
     les ennemis, les aveuglant, puis rejoue son tour."
   <TargetEnemy>k__BackingField: 0
-  <Damage>k__BackingField: 10
+  <Damage>k__BackingField: 5
   <AffectEnemies>k__BackingField: 1
-  <IsUltimate>k__BackingField: 0
+  <IsUltimate>k__BackingField: 1
+  <Portrait>k__BackingField: {fileID: 0}

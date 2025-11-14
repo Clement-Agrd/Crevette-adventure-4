@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a0d5de1631a64d209c794042e74606f8, type: 3}
-  m_Name: Bananes C1
+  m_Name: Banane C1
   m_EditorClassIdentifier: Assembly-CSharp::Scripts.SkillData
-  <Title>k__BackingField: C1 Bananes
+  <Title>k__BackingField: C1 Banane
   skillType: 3
   <Description>k__BackingField: 
   <TargetEnemy>k__BackingField: 0
   <Damage>k__BackingField: 10
   <AffectEnemies>k__BackingField: 0
   <IsUltimate>k__BackingField: 0
+  <Portrait>k__BackingField: {fileID: 0}

@@ -12,6 +12,7 @@ namespace Skills.AssassinationStrike
 
         public override void Use(BattleSystem system, Hero target)
         {
+            if (!CanUse(system)) return;
             if (target == null) return;
 
             int damage = user.GetDamageFor(SkillData.Damage);

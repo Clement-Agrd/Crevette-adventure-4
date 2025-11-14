@@ -18,7 +18,7 @@ namespace Skills.HealAlly
                 return;
             }
 
-            int healAmount = user.GetDamageFor(SkillData.Damage); // Damage = puissance de soin
+            int healAmount = SkillData.Damage;
             target.HealanAlly(healAmount, target, user);
             Debug.Log($"{user.Name} soigne {target.Name} pour {healAmount} HP avec {SkillData.Title}");
         }

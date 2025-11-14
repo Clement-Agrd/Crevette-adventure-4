@@ -17,7 +17,7 @@ namespace Skills.HealAllAlly
                 : system.GetAllAliveHeroes();
 
 
-            int healAmount = user.GetDamageFor(SkillData.Damage); // Damage = puissance de soin
+            int healAmount = SkillData.Damage;
             foreach (Hero target in targets)
             {
                 target.Heal(healAmount, target);

@@ -32,24 +32,37 @@ namespace Skills.StackAttack
 
             for (int i = 0; i < stacks; i++)
             {
-                Hero chosenTarget;
-                if (user.IsEnemy)
+                // --- 1) Récupération de la liste correcte selon l'équipe ---
+                var possibleTargets = user.IsEnemy
+                    ? system.GetAllAliveHeroes()   // Ennemi → cible un héros
+                    : system.GetAllAliveEnemies(); // Héros → cible un ennemi
+
+                // On ignore les camouflés
+                possibleTargets = possibleTargets
+                    .Where(t => !t.IsCamouflaged)
+                    .ToList();
+
+                if (possibleTargets.Count == 0)
                 {
-                    var allies = system.GetAllAliveHeroes();
-                    if (allies.Count == 0) break;
-                    chosenTarget = allies[Random.Range(0, allies.Count)];
-                }
-                else
-                {
-                    var enemies = system.GetAllAliveEnemies();
-                    if (enemies.Count == 0) break;
-                    chosenTarget = enemies[Random.Range(0, enemies.Count)];
+                    Debug.Log("Aucune cible disponible (camouflage ? morts ?)");
+                    break;
                 }
 
+                // --- 2) Gestion de la Provocation (Taunt) ---
+                var taunting = possibleTargets.FirstOrDefault(t => t.IsTaunting);
+                if (taunting != null)
+                {
+                    possibleTargets = new() { taunting };
+                }
+
+                // --- 3) Sélection d'une cible aléatoire ---
+                Hero chosenTarget = possibleTargets[Random.Range(0, possibleTargets.Count)];
+
+                // --- 4) Application des dégâts ---
                 int damage = user.GetDamageFor(SkillData.Damage);
                 chosenTarget.TakeDamage(damage, user);
 
-                Debug.Log($"{user.Name} attaque {chosenTarget.Name} ({i+1}/{stacks})");
+                Debug.Log($"{user.Name} attaque {chosenTarget.Name} ({i + 1}/{stacks})");
             }
         }
 

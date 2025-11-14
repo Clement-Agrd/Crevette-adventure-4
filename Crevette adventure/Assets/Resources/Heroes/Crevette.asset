@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Crevette
   m_EditorClassIdentifier: Assembly-CSharp::Scripts.HeroData
   <Name>k__BackingField: Crevancelot
-  <MaxHealth>k__BackingField: 30
+  <MaxHealth>k__BackingField: 80
   <Atk>k__BackingField: 10
-  <Def>k__BackingField: 10
+  <Def>k__BackingField: 12
   <Speed>k__BackingField: 9
   <IsEnemy>k__BackingField: 0
   <Passive>k__BackingField: {fileID: 11400000, guid: 249283faddde0b04a8a6cae457929db8, type: 2}

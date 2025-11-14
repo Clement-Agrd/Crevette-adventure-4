@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Cerise
   m_EditorClassIdentifier: Assembly-CSharp::Scripts.HeroData
   <Name>k__BackingField: Cerise
-  <MaxHealth>k__BackingField: 300
+  <MaxHealth>k__BackingField: 80
   <Atk>k__BackingField: 10
   <Def>k__BackingField: 10
   <Speed>k__BackingField: 2

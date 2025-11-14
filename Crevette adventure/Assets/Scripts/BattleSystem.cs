@@ -264,11 +264,14 @@ namespace Scripts
             // A : L’ennemi a 3 charges d’ulti → priorise un skill ultime
             if (enemy.UltiCharges >= 3)
             {
-                chosenSkill = enemy.Skills.FirstOrDefault(s => s.SkillData.IsUltimate);
-                if (chosenSkill != null)
-                {
-                    Debug.Log($"[IA] {enemy.Name} utilise son ULTIMATE : {chosenSkill.SkillData.Title}");
-                }
+                var UltSkills = enemy.Skills
+                    .Where(s => s.SkillData.IsUltimate)
+                    .ToList();
+
+                if (UltSkills.Count == 0)
+                    UltSkills = enemy.Skills; // fallback
+
+                chosenSkill = UltSkills[UnityEngine.Random.Range(0, UltSkills.Count)];
             }
             else
             {

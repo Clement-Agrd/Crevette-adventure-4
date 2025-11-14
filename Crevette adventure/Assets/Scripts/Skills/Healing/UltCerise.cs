@@ -26,7 +26,7 @@ namespace Skills.UltCerise
             }
 
 
-            int healAmount = user.GetDamageFor(SkillData.Damage); // Damage = puissance de soin
+            int healAmount = SkillData.Damage;
             foreach (Hero target in firstTwoTargets)
             {
                 target.Heal(healAmount, target);

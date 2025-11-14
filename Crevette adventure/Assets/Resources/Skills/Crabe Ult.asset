@@ -18,6 +18,7 @@ MonoBehaviour:
     premier ennemi. S\u2019il le tue avec cette attaque, il transf\xE8re les marques
     \xE0 l\u2019ennemi derri\xE8re sa cible."
   <TargetEnemy>k__BackingField: 1
-  <Damage>k__BackingField: 300
+  <Damage>k__BackingField: 20
   <AffectEnemies>k__BackingField: 1
   <IsUltimate>k__BackingField: 1
+  <Portrait>k__BackingField: {fileID: 0}

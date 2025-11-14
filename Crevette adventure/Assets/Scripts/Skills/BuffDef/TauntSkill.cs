@@ -14,9 +14,9 @@ namespace Skills.Taunt
 
         public override void Use(BattleSystem system)
         {
+            if (!CanUse(system)) return;
             int bonusDef;
             bonusDef = SkillData.Damage; // on réutilise Damage pour la valeur du buff
-            if (!CanUse(system)) return;
             user.Taunt();
             // Applique le buff immédiatement
             user.Def += bonusDef;
