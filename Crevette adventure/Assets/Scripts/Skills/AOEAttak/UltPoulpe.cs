@@ -17,7 +17,7 @@ namespace Skills.UltPoulpe
             foreach (var target in targets)
             {
                 user.DealDamage(dmg, target);
-                Debug.Log($"{user.Name} inflige {dmg} dégâts à {target.Name} avec l'Ult !");
+                Debug.Log($"{user.Name} inflige des dégâts à {target.Name} avec l'Ult !");
             }
 
             Debug.Log($"{user.Name} rejoue son tour !");

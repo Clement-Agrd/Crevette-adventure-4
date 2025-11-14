@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0d5de1631a64d209c794042e74606f8, type: 3}
   m_Name: Bernard Ult
   m_EditorClassIdentifier: Assembly-CSharp::Scripts.SkillData
-  <Title>k__BackingField: Ult Bernard
+  <Title>k__BackingField: Ange gardien
   skillType: 16
-  <Description>k__BackingField: 
+  <Description>k__BackingField: "Bernard l\u2019ermite soigne toute son \xE9quipe"
   <TargetEnemy>k__BackingField: 0
   <Damage>k__BackingField: 10
   <AffectEnemies>k__BackingField: 0

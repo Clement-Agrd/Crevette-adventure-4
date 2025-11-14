@@ -35,7 +35,7 @@ public class HeroUIManager : MonoBehaviour
 
         herodata.OnDamaged += (dmg, from) => bar.SetHealth(herodata.CurrentHealth, herodata.MaxHealth);
         herodata.OnHealed += (heal, from) => bar.SetHealth(herodata.CurrentHealth, herodata.MaxHealth);
+        herodata.OnHealedally += (heal, target) => bar.SetHealth(herodata.CurrentHealth, herodata.MaxHealth);
     }
-
     
 }

@@ -49,7 +49,7 @@ namespace Skills.StackAttack
                 int damage = user.GetDamageFor(SkillData.Damage);
                 chosenTarget.TakeDamage(damage, user);
 
-                Debug.Log($"{user.Name} attaque {chosenTarget.Name} pour {damage} dégâts ({i+1}/{stacks})");
+                Debug.Log($"{user.Name} attaque {chosenTarget.Name} ({i+1}/{stacks})");
             }
         }
 

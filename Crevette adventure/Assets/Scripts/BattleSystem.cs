@@ -47,6 +47,7 @@ namespace Scripts
                 .Where(h => h.IsEnemy)
                 .Take(4) // Limite à 4 ennemis
                 .ToArray();
+            allHeros = allHeros.OrderByDescending(c => c.Speed).ToList();
 
             foreach (HeroData enemyData in allEnemies)
             {
@@ -84,8 +85,7 @@ namespace Scripts
             }
 
             heroUIManager.Initialize(heroObjects);
-
-            allHeros = allHeros.OrderByDescending(c => c.Speed).ToList();
+            
             StartTurn();
         }
 
@@ -244,9 +244,98 @@ namespace Scripts
         
         void EnemyAction(Hero enemy)
         {
-            Skill chosenSkill = enemy.Skills[Random.Range(0, enemy.Skills.Count)];
-            chosenSkill.Use(this,enemy);
-            Debug.Log($"{enemy.Name} attaque avec {chosenSkill.SkillData.Title}");
+            if (enemy.IsStunned)
+            {
+                Debug.Log($"[IA] {enemy.Name} est étourdi et perd son tour !");
+    
+                // Déclenche l'événement TurnStart pour retirer le stun
+                enemy.RemoveStun(enemy); 
+
+                // Passe directement au prochain tour
+                Invoke(nameof(NextTurn), 1f);
+                return;
+            }
+            
+            Debug.Log($"[IA] Tour de {enemy.Name}");
+
+             // --- 1) Sélection du skill ---
+            Skill chosenSkill;
+
+            // A : L’ennemi a 3 charges d’ulti → priorise un skill ultime
+            if (enemy.UltiCharges >= 3)
+            {
+                chosenSkill = enemy.Skills.FirstOrDefault(s => s.SkillData.IsUltimate);
+                if (chosenSkill != null)
+                {
+                    Debug.Log($"[IA] {enemy.Name} utilise son ULTIMATE : {chosenSkill.SkillData.Title}");
+                }
+            }
+            else
+            {
+                // Sinon : choisir un skill NON-ultime
+                var normalSkills = enemy.Skills
+                    .Where(s => !s.SkillData.IsUltimate)
+                    .ToList();
+
+                if (normalSkills.Count == 0)
+                    normalSkills = enemy.Skills; // fallback
+
+                chosenSkill = normalSkills[UnityEngine.Random.Range(0, normalSkills.Count)];
+            }
+
+
+            // --- 2) S’il NE nécessite PAS de cible → utilisation simple ---
+            if (!chosenSkill.SkillData.TargetEnemy)
+            {
+                chosenSkill.Use(this);
+                Debug.Log($"[IA] {enemy.Name} utilise {chosenSkill.SkillData.Title} (no target)");
+                Invoke(nameof(NextTurn), 1.5f);
+                return;
+            }
+
+
+            // --- 3) Trouver la meilleure cible vivante (faible ratio PV) ---
+
+            // On prend uniquement les ennemis du joueur (donc !enemy.IsEnemy)
+            var possibleTargets = allHeros
+                .Where(h => h.IsAlive()
+                            && !h.IsCamouflaged
+                            && (
+                                // Si le skill affecte les ennemis → on prend le camp opposé
+                                (chosenSkill.SkillData.AffectEnemies && h.IsEnemy != enemy.IsEnemy)
+                   
+                                // Si le skill affecte les alliés → on prend SON camp
+                                || (!chosenSkill.SkillData.AffectEnemies && h.IsEnemy == enemy.IsEnemy)
+                            )
+                )
+                .ToList();
+
+            // Si quelqu’un est en provocation → devient la seule cible possible
+            Hero taunting = possibleTargets.FirstOrDefault(h => h.IsTaunting);
+            if (taunting != null)
+            {
+                possibleTargets = new List<Hero> { taunting };
+            }
+
+            // Si plus aucune cible : skip le tour
+            if (possibleTargets.Count == 0)
+            {
+                Debug.Log("[IA] Aucune cible valide trouvée !");
+                Invoke(nameof(NextTurn), 1.5f);
+                return;
+            }
+
+            // Cible = ratio PV le plus faible
+            Hero target = possibleTargets
+                .OrderBy(h => (float)h.CurrentHealth / h.MaxHealth)
+                .First();
+
+            Debug.Log($"[IA] {enemy.Name} cible {target.Name} avec {chosenSkill.SkillData.Title}");
+
+
+            // --- 4) Exécute le skill ciblé ---
+            chosenSkill.Use(this, target);
+
             Invoke(nameof(NextTurn), 1.5f);
         }
 
@@ -255,22 +344,5 @@ namespace Scripts
             CanNextTurn = false;
         }
         
-        public Hero GetWeakestHero()
-        {
-            return allHeros
-                .Where(h => !h.IsEnemy && h.IsAlive())
-                .OrderBy(h => h.CurrentHealth)
-                .FirstOrDefault();
-        }
-
-        public Hero GetWeakestEnemyAlly(Hero currentEnemy)
-        {
-            return allHeros
-                .Where(h => h.IsEnemy && h.IsAlive() && h != currentEnemy)
-                .OrderBy(h => h.CurrentHealth)
-                .FirstOrDefault();
-        }
-
-
     }
 }

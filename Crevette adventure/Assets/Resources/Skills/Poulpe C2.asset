@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0d5de1631a64d209c794042e74606f8, type: 3}
   m_Name: Poulpe C2
   m_EditorClassIdentifier: Assembly-CSharp::Scripts.SkillData
-  <Title>k__BackingField: C2 Poulpe
+  <Title>k__BackingField: Punition
   skillType: 13
-  <Description>k__BackingField: 
+  <Description>k__BackingField: "Sir Poulpencre retire toutes les marques d\u2019aveuglement
+    de tous les ennemis aveugl\xE9s, infligeant des d\xE9g\xE2ts en fonction du nombre
+    de marques retir\xE9es."
   <TargetEnemy>k__BackingField: 0
   <Damage>k__BackingField: 10
   <AffectEnemies>k__BackingField: 1

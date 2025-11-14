@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Scripts.SkillData
   <Title>k__BackingField: Ult poulpe
   skillType: 14
-  <Description>k__BackingField: 
+  <Description>k__BackingField: "Sir Poulpencre inflige des d\xE9g\xE2ts \xE0 tous
+    les ennemis, les aveuglant, puis rejoue son tour."
   <TargetEnemy>k__BackingField: 0
   <Damage>k__BackingField: 10
   <AffectEnemies>k__BackingField: 1

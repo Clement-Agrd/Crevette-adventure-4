@@ -22,13 +22,13 @@ namespace Scripts.Passives
             {
                 var buff = new StatBuff(data.AtkBonus, 0, data.Duration);
                 user.AddBuff(buff);
-                Debug.Log($"{user.Name} reçoit un buff ATK de {data.AtkBonus} pour {data.Duration} tour(s) !");
+                Debug.Log($"{user.Name} reçoit un buff ATK de {data.AtkBonus} pour 1 tour(s) !");
             }
             else
             {
                 var buff = new StatBuff(0, data.DefBonus, data.Duration);
                 user.AddBuff(buff);
-                Debug.Log($"{user.Name} reçoit un buff DEF de {data.DefBonus} pour {data.Duration} tour(s) !");
+                Debug.Log($"{user.Name} reçoit un buff DEF de {data.DefBonus} pour 1 tour(s) !");
             }
 
             giveAtk = !giveAtk; // alterne pour le prochain tour

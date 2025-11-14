@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Bernard C1
   m_EditorClassIdentifier: Assembly-CSharp::Scripts.SkillData
   <Title>k__BackingField: Soin
-  skillType: 4
-  <Description>k__BackingField: 
+  skillType: 24
+  <Description>k__BackingField: "Bernard l\u2019ermite soigne un alli\xE9"
   <TargetEnemy>k__BackingField: 1
   <Damage>k__BackingField: 10
   <AffectEnemies>k__BackingField: 0

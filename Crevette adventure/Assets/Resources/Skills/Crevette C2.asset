@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Scripts.SkillData
   <Title>k__BackingField: Protection
   skillType: 5
-  <Description>k__BackingField: 
+  <Description>k__BackingField: "Crevancelot l\xE8ve son bouclier, augmentant son
+    armure jusqu\u2019\xE0 son prochain tour."
   <TargetEnemy>k__BackingField: 0
   <Damage>k__BackingField: 10
   <AffectEnemies>k__BackingField: 0

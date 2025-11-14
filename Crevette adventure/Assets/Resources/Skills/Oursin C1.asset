@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0d5de1631a64d209c794042e74606f8, type: 3}
   m_Name: Oursin C1
   m_EditorClassIdentifier: Assembly-CSharp::Scripts.SkillData
-  <Title>k__BackingField: C1 Oursin
+  <Title>k__BackingField: Solidification
   skillType: 6
-  <Description>k__BackingField: 
+  <Description>k__BackingField: "Oursepine augmente l\u2019armure d\u2019un alli\xE9
+    pour un tour."
   <TargetEnemy>k__BackingField: 1
   <Damage>k__BackingField: 100
   <AffectEnemies>k__BackingField: 0

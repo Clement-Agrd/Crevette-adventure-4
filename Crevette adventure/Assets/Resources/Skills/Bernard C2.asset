@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0d5de1631a64d209c794042e74606f8, type: 3}
   m_Name: Bernard C2
   m_EditorClassIdentifier: Assembly-CSharp::Scripts.SkillData
-  <Title>k__BackingField: C2 Bernard
+  <Title>k__BackingField: Affaiblissement
   skillType: 18
-  <Description>k__BackingField: 
+  <Description>k__BackingField: "Bernard l\u2019ermite r\xE9duit l\u2019armure des
+    deux premiers ennemis pour un tour."
   <TargetEnemy>k__BackingField: 0
   <Damage>k__BackingField: 10
   <AffectEnemies>k__BackingField: 1

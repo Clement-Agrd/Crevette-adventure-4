@@ -16,11 +16,11 @@ MonoBehaviour:
   <MaxHealth>k__BackingField: 300
   <Atk>k__BackingField: 10
   <Def>k__BackingField: 10
-  <Speed>k__BackingField: 16
+  <Speed>k__BackingField: 8
   <IsEnemy>k__BackingField: 0
   <Passive>k__BackingField: {fileID: 11400000, guid: aae37ae266bb5ab45bfecb4405eff560, type: 2}
   <Skills>k__BackingField:
   - {fileID: 11400000, guid: 9533a4e5a20b976419302b06325fcdf8, type: 2}
   - {fileID: 11400000, guid: 597f9787105212742b3eb984793f4ed8, type: 2}
   - {fileID: 11400000, guid: d696ce1c1448b0e438b3e43019e63ddb, type: 2}
-  <Portrait>k__BackingField: {fileID: 21300000, guid: 5d27a8c6a851ffe409909fa708abb7eb, type: 3}
+  <Portrait>k__BackingField: {fileID: 21300000, guid: af3207133b189054f9dc8eaad8f4a7ad, type: 3}

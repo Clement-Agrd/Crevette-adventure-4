@@ -24,6 +24,11 @@ using Skills.HealAllAlly;
 using Skills.UltCrevette;
 using Skills.DefDown;
 using Skills.StackAttack;
+using Skills.ATKBuffAlly;
+using Skills.UltAnanas;
+using Skills.C2Ananas;
+using Skills.UltCerise;
+using Skills.HealAllyP;
 
 
 namespace Scripts
@@ -50,11 +55,18 @@ namespace Scripts
         UltCrevette,
         DefDown,
         StackAttack,
+        ATKBuffAlly,
+        UltAnanas,
+        C2Ananas,
+        UltCerise,
+        HealAllyP,
     }
 
     public class Hero
     {
         public event Action<Hero> OnTurnStart;
+        
+        public event Action<Hero> OnRemoveStun;
         public event Action<int, Hero> OnHealed;
         public event Action<int, Hero> OnAttack;
         public event Action<int, Hero> OnDamaged;
@@ -99,6 +111,8 @@ namespace Scripts
             CurrentHealth = MaxHealth;
             Atk = data.Atk;
             Def = data.Def;
+            Def = data.Def;
+            ClampDef();
             Speed = data.Speed;
             IsEnemy = data.IsEnemy;
             Portrait = data.Portrait;
@@ -126,6 +140,11 @@ namespace Scripts
                 {SkillEnum.UltCrevette, () => new UltCrevette(null, null)},
                 {SkillEnum.DefDown, () => new DefDownSkill(null, null)},
                 {SkillEnum.StackAttack, () => new StackAttackSkill(null, null)},
+                {SkillEnum.ATKBuffAlly, () => new ATKBuffAlly(null, null)},
+                {SkillEnum.UltAnanas, () => new UltAnanas(null, null)},
+                {SkillEnum.C2Ananas, () => new C2Ananas(null, null)},
+                {SkillEnum.UltCerise, () => new UltCerise(null, null)},
+                {SkillEnum.HealAllyP, () => new HealAllyP(null, null)},
             };
 
             foreach (SkillData skillData in data.Skills)
@@ -168,7 +187,7 @@ namespace Scripts
 
         public void TriggerTurnStart() => OnTurnStart?.Invoke(this);
 
-        public void Heal(int heal, Hero target, Hero from)
+        public void HealanAlly(int heal, Hero target, Hero from)
         {
             CurrentHealth += heal;
             if (CurrentHealth > MaxHealth)
@@ -208,18 +227,14 @@ namespace Scripts
         {
             IsStunned = true;
             Debug.Log($"{Name} est étourdi !");
-
-            void RemoveStun(Hero h)
+        }
+        public void RemoveStun(Hero h)
+        {
+            if (h == this)
             {
-                if (h == this)
-                {
-                    IsStunned = false;
-                    Debug.Log($"{Name} n'est plus étourdi !");
-                    this.OnTurnStart -= RemoveStun;
-                }
+                IsStunned = false;
+                Debug.Log($"{Name} n'est plus étourdi !");
             }
-
-            this.OnTurnStart += RemoveStun;
         }
         // Méthode utilitaire pour attaquer et déclencher l’événement
         public void DealDamage(int dmg, Hero target)
@@ -252,6 +267,7 @@ namespace Scripts
             activeBuffs.Add(buff);
             Atk += buff.AtkBonus;
             Def += buff.DefBonus;
+            ClampDef();
             Debug.Log($"{Name} gagne un buff (+{buff.AtkBonus} ATK, +{buff.DefBonus} DEF) pour {buff.RemainingTurns} tours !");
         }
         public void OnTurnStartHandler()
@@ -266,6 +282,7 @@ namespace Scripts
                 {
                     Atk -= buff.AtkBonus;
                     Def -= buff.DefBonus;
+                    ClampDef();
                     expired.Add(buff);
                     Debug.Log($"{Name} perd un buff temporaire !");
                 }
@@ -273,6 +290,12 @@ namespace Scripts
 
             foreach (var b in expired)
                 activeBuffs.Remove(b);
+        }
+        
+        private void ClampDef()
+        {
+            if (Def < 1)
+                Def = 1;
         }
         
     }

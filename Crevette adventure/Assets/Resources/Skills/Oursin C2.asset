@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0d5de1631a64d209c794042e74606f8, type: 3}
   m_Name: Oursin C2
   m_EditorClassIdentifier: Assembly-CSharp::Scripts.SkillData
-  <Title>k__BackingField: C2 Oursin
+  <Title>k__BackingField: Charge
   skillType: 15
-  <Description>k__BackingField: 
+  <Description>k__BackingField: "Oursepine charge le premier ennemi, infligeant des
+    d\xE9g\xE2ts en fonction de son armure."
   <TargetEnemy>k__BackingField: 0
   <Damage>k__BackingField: 10
   <AffectEnemies>k__BackingField: 1

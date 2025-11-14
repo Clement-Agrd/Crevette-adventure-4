@@ -29,6 +29,14 @@ namespace Scripts
 
                 btn.onClick.AddListener(() => OnSkillSelected?.Invoke(skill));
                 currentButtons.Add(btn);
+
+                // ⚡ Ajouter le tooltip
+                SkillButtonTooltip tooltip = btnObj.GetComponent<SkillButtonTooltip>();
+                if (tooltip != null)
+                {
+                    tooltip.SetDescription(skill.SkillData.Description);
+                    tooltip.tooltipPanel.SetActive(false); // s'assurer qu'il est caché
+                }
             }
         }
 

@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0d5de1631a64d209c794042e74606f8, type: 3}
   m_Name: Seiche Ult
   m_EditorClassIdentifier: Assembly-CSharp::Scripts.SkillData
-  <Title>k__BackingField: Ult Seiche
+  <Title>k__BackingField: Embuscade
   skillType: 10
-  <Description>k__BackingField: 
+  <Description>k__BackingField: Seicharp repasse en camouflage et frappe tous les
+    ennemis.
   <TargetEnemy>k__BackingField: 0
   <Damage>k__BackingField: 10
   <AffectEnemies>k__BackingField: 1

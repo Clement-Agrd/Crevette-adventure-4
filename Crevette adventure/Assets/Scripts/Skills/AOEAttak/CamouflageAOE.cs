@@ -25,7 +25,7 @@ namespace Skills.Camouflage
             foreach (Hero target in targets)
             {
                 target.TakeDamage(totalDamage, user, false);
-                Debug.Log($"{user.Name} inflige {totalDamage} dégâts à {target.Name} avec {SkillData.Title}");
+                Debug.Log($"{user.Name} inflige des dégâts à {target.Name} avec {SkillData.Title}");
             }
         }
 

@@ -17,8 +17,7 @@ namespace Scripts.UltiChargeOnHeal
         private void HandleHealDealt(int amount, Hero healedHero)
         {
             if (healedHero == null || !healedHero.IsAlive()) return;
-
-            healedHero.GainUltiCharge();
+            
             Debug.Log($"{healedHero.Name} gagne 1 charge d'ulti grâce au soin de {user.Name} !");
         }
         

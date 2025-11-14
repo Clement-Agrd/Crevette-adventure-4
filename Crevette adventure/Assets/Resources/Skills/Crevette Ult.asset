@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Scripts.SkillData
   <Title>k__BackingField: Ult Crevette
   skillType: 17
-  <Description>k__BackingField: 
+  <Description>k__BackingField: "Crevancelot augmente l\u2019armure et l\u2019attaque
+    de toute son \xE9quipe pendant un tour."
   <TargetEnemy>k__BackingField: 0
   <Damage>k__BackingField: 10
   <AffectEnemies>k__BackingField: 0
